@@ -12,3 +12,9 @@ Bear in mind that there are a few things you need to change on the main `jquery.
 * Your business email address.
 * The URL of the PayPal's form.
 * The way shipping charges are calculated.
+
+## To run this project
+You have 3 options. 
+1. Clone this project and run it locally
+2. Clone this project to a Web Server and run it remotely
+3. Fork this project and access it via your GitHub Pages
