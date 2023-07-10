@@ -6,6 +6,7 @@
 
 /*= Demo */
 
+
 html, body {
 	height: 100%;
 	min-height: 100%;
@@ -13,10 +14,28 @@ html, body {
 
 body {
 	font: 100%/1 'PT Serif', serif;
-	background: #fff;
-	color: #333;
+	background: black;
+	color:  #fff;
 	border-top: 0.5em solid #cc8500;	
 }
+
+#prelaoder {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.75);
+  }
+  #prelaoder video {
+	width: 100%;
+	height: 100;
+	object-fit: cover;
+  }
+  
+  body.loaded #prelaoder {
+	display: none;
+  }
 
 :active, :focus {
 	outline-style: none;
@@ -56,7 +75,7 @@ h1, h2, h3, h4, h5, h6 {
 	padding-left: 85px;
 	min-height: 82px;
 	line-height: 2.3;
-	background: url(../images/logo.gif) no-repeat 0 50%;
+	background: url(../images/anim.gif) no-repeat 0 50%;
 	color: #900;
 	
 }
