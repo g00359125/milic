@@ -16,7 +16,6 @@ body {
 	font: 100%/1 'PT Serif', serif;
 	background: black;
 	color:  #fff;
-	border-top: 0.5em solid #cc8500;	
 }
 
 #prelaoder {
@@ -212,7 +211,7 @@ body#checkout-page #site-info {
 
 .shopping-cart tr:nth-child(even) {
 	background: #fafafa;
-},
+}
 
 .shopping-cart td.pdelete {
 	text-align: center;
@@ -362,4 +361,110 @@ body#checkout-page #site-info {
 #paypal-form {
 	margin: 1.5em 0;
 }
+#topBlackBar {
+	border-top: 80px solid #000;
+	width: 100%;
+	position: fixed;
+}
 
+.parallax-container {
+	height: 2000px;
+	width: 100%;
+	overflow: hidden;
+	position: relative;
+ }
+ .layer-1,
+ .layer-2,
+ .layer-3 {
+	background-position: center;
+	background-size: cover;
+	position: absolute;
+	height: 800px;
+	width: 100%;
+ }
+ .layer-1 {
+
+	background-image: url("../images/distillery.jpg");
+	
+ }
+ .layer-2 {
+	background-image: linear-gradient(blue,lightblue);
+	
+ }
+ .layer-3 {
+	background-image: url("../images/q2.jpg");
+	
+ }
+
+ .navbar {
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+  }
+  .parallax {
+	/* The image used */
+	background-image: url("../images/q2.jpg");
+  
+	/* Set a specific height */
+	min-height: 800px;
+  
+	/* Create the parallax scrolling effect */
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+  }
+  ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: black;
+  }
+  
+  li {
+	float: left;
+  }
+  
+  li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 20px 25px;
+	text-decoration: none;
+  }
+  
+  /* Change the link color to #111 (black) on hover */
+  li a:hover {
+	background-color: #111;
+  }
+  .active {
+	background-color: #dbd80b;
+  }
+  .parallax2 {
+	/* The image used */
+	background-image: url("../images/distillery.jpg");
+  
+	/* Set a specific height */
+	min-height: 800px;
+  
+	/* Create the parallax scrolling effect */
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+  }
+  .parallax3 {
+	/* The image used */
+	background-image: url("../images/kula.jpg");
+  
+	/* Set a specific height */
+	min-height: 800px;
+  
+	/* Create the parallax scrolling effect */
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+  }
