@@ -45,7 +45,7 @@ if ($message == "Successfully created new user") {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en" data-bs-theme="dark">
 
 <head>
 	<title>Register Below</title>
@@ -57,9 +57,12 @@ if ($message == "Successfully created new user") {
 	<link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery.shop.js"></script>
+	<script type="text/javascript" src="js/color-modes.js"></script>
 </head>
 <body>
-
+<?php
+		require 'themeToggle.php';
+?>
 <!-- Section: Design Block -->
 <section class="text-center text-lg-start">
   <style>
@@ -83,45 +86,49 @@ if ($message == "Successfully created new user") {
             backdrop-filter: blur(30px);
             ">
           <div class="card-body p-5 shadow-5 text-center">
-            <h2 class="fw-bold mb-5">Register</h2>
+		  	<img class="mb-4" src="images/lLogo.png" alt="" width="300">
+			<h1 class="h3 mb-5 fw-bold">Please sign up</h1>
+            <!-- <h2 class="fw-bold mb-5">Register</h2> -->
             <form action="register.php" method="POST">
               <!-- 2 column grid layout with text inputs for the first and last names -->
               <div class="row">
                 <div class="col-md-6 mb-4">
-                  <div class="form-outline">
-                    <input type="text" id="name" name="name" class="form-control" />
-                    <label class="form-label" for="name">First name</label>
+                  <div class="form-floating">
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Name"/>
+                    <label for="name">First name</label>
                   </div>
                 </div>
                 <div class="col-md-6 mb-4">
-                  <div class="form-outline">
-                    <input type="text" id="surname" name="surname" class="form-control" />
+                  <div class="form-floating">
+                    <input type="text" id="surname" name="surname" class="form-control" placeholder="Surname"/>
                     <label class="form-label" for="surname">Last name</label>
                   </div>
                 </div>
               </div>
 
               <!-- Email input -->
-              <div class="form-outline mb-4">
-                <input type="email" id="email" name="email" class="form-control" />
+              <div class="form-floating mb-4">
+                <input type="email" id="email" name="email" class="form-control" placeholder="name@email.com" autocomplete="off" readonly 
+onfocus="this.removeAttribute('readonly');"/>
                 <label class="form-label" for="email">Email address</label>
               </div>
 
               <!-- Password input -->
-              <div class="form-outline mb-4">
-                <input type="password" id="password" name="password" class="form-control" />
+              <div class="form-floating mb-4">
+                <input type="password" id="password" name="password" class="form-control" placeholder="**********" autocomplete="off" readonly 
+onfocus="this.removeAttribute('readonly');"/>
                 <label class="form-label" for="password">Password</label>
               </div>
 
 			  <!-- Confirm Password input -->
-			  <div class="form-outline mb-4">
-                <input type="password" id="password_confirm" name="password_confirm" class="form-control" />
+			  <div class="form-floating mb-4">
+                <input type="password" id="password_confirm" name="password_confirm" class="form-control" placeholder="**********"/>
                 <label class="form-label" for="password_confirm">Confirm Password</label>
               </div>
 			
 			  <!-- Address input -->
-			    <div class="form-outline mb-4">
-                <input type="text" id="address" name="address" class="form-control" />
+			    <div class="form-floating mb-4">
+                <input type="text" id="address" name="address" class="form-control" placeholder="Street No, Post Code City, Country"/>
                 <label class="form-label" for="address">Address</label>
               </div>
 
@@ -129,22 +136,22 @@ if ($message == "Successfully created new user") {
 			  <div class="row">
 				<!-- DOB input -->
                 <div class="col-md-6 mb-4">
-                  <div class="form-outline">
-                    <input type="text" id="dob" name="dob" class="form-control" />
+                  <div class="form-floating">
+                    <input type="text" id="dob" name="dob" class="form-control" placeholder="YYYY-MM-DD"/>
                     <label class="form-label" for="dob">DOB (YYYY-MM-DD)</label>
                   </div>
                 </div>
 				<!-- Mobile input -->
                 <div class="col-md-6 mb-4">
-                  <div class="form-outline">
-                    <input type="text" id="mobile" name="mobile" class="form-control" />
-                    <label class="form-label" for="mobile">Mobile</label>
+                  <div class="form-floating">
+                    <input type="text" id="mobile" name="mobile" class="form-control" placeholder="(0XX) XXX XXXX"/>
+                    <label class="form-label" for="mobile">Mobile (0XX) XXX XXXX</label>
                   </div>
                 </div>
               </div>
 
               <!-- Submit button -->
-              <button type="submit" class="btn btn-primary btn-block mb-4">
+              <button type="submit" class="btn btn-secondary btn-block mb-4">
                 Register
               </button>
               
