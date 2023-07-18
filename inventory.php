@@ -24,160 +24,79 @@
     <main>
         <div class="container">
             <h1 class="display-3">Inventory</h1>
-            <div class="table-responsive ">
-                <div class="table-wrapper ">
-                    <div class="table-title">
-                        <div class="row">
-                            <div class="col-sm-8"></div>
-                            <div class="col-sm-4">
-                                <div class="search-box">
-                                    <i class="fa fa-magnifying-glass"></i>
-                                    <input type="text" class="form-control" placeholder="Search…">
-                                </div>
+
+            
+            <div class="container mt-4">
+
+                <?php include('alert.php'); ?>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <!-- <div class="card-header">
+                                <h4>Details
+                                    <a href="student-create.php" class="btn btn-primary float-end">Add Students</a>
+                                </h4>
+                            </div> -->
+                            <div class="card-body">
+
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Volume</th>
+                                            <th>Year</th>
+                                            <th>ABV (%)</th>
+                                            <th>Qty</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php 
+                                            $query = "SELECT * FROM products";
+                                            // $records = $conn->prepare($query);
+	                                        //$records->bindParam(':id', $_SESSION['user_id']);
+	                                        // $records->execute();
+	                                        // $results = $records->fetch(PDO::FETCH_ASSOC);
+                                            $counter = 0;
+                                            
+                                            $stmt = $conn->query($query);
+                                            while ($row = $stmt->fetch()){
+                                                // print_r($row);
+                                                $counter++;
+                                                ?>
+                                                    <tr>
+                                                        <td><?= $row['id']; ?></td>
+                                                        <td><?= $row['name_en']; ?></td>
+                                                        <td><?= $row['volume']; ?></td>
+                                                        <td><?= $row['year']; ?></td>
+                                                        <td><?= $row['abv']; ?></td>
+                                                        <td><?= $row['qty']; ?></td>
+                                                        <td>
+                                                            <!-- <a href="inventory-view.php?id=<?= $row['id']; ?>" class="btn btn-info btn-sm">View</a> -->
+                                                            <a href="inventory-edit.php?id=<?= $row['id']; ?>" class="btn btn-success btn-sm">Edit</a>
+                                                            <!-- <form action="code.php" method="POST" class="d-inline">
+                                                                <button type="submit" name="delete_inventory" value="<?=$row['id'];?>" class="btn btn-danger btn-sm">Delete</button>
+                                                            </form> -->
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                            }
+
+                                            if($counter == 0) {   
+                                                echo "<h5> No Record Found </h5>";
+                                            }
+                                        ?>
+                                        
+                                    </tbody>
+                                </table>
+
                             </div>
                         </div>
                     </div>
-                    <table class="table table-striped table-hover table-bordered">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name <i class="fa fa-sort"></i></th>
-                                <th>Volume</th>
-                                <th>Year <i class="fa fa-sort"></i></th>
-                                <th>Quantity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Kajsija</td>
-                                <td>0.7</td>
-                                <td>2023</td>
-                                <td>30</td>
-                            </tr>       
-                        </tbody>
-                    </table>
-                    <!-- <div class="clearfix">
-                        <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                        <ul class="pagination">
-                            <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                            <li class="page-item"><a href="#" class="page-link">1</a></li>
-                            <li class="page-item"><a href="#" class="page-link">2</a></li>
-                            <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                            <li class="page-item"><a href="#" class="page-link">4</a></li>
-                            <li class="page-item"><a href="#" class="page-link">5</a></li>
-                            <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
-                        </ul>
-                    </div> -->
                 </div>
             </div>
-
-            <!-- <div id="addEmployeeModal" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form>
-                            <div class="modal-header">						
-                                <h4 class="modal-title">Add Employee</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            </div>
-                            <div class="modal-body">					
-                                <div class="form-group">
-                                    <label>Name</label>
-                                    <input type="text" class="form-control" required="">
-                                </div>
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="email" class="form-control" required="">
-                                </div>
-                                <div class="form-group">
-                                    <label>Address</label>
-                                    <textarea class="form-control" required=""></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Phone</label>
-                                    <input type="text" class="form-control" required="">
-                                </div>					
-                            </div>
-                            <div class="modal-footer">
-                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                <input type="submit" class="btn btn-success" value="Add">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div id="editEmployeeModal" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form>
-                            <div class="modal-header">						
-                                <h4 class="modal-title">Edit Employee</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            </div>
-                            <div class="modal-body">					
-                                <div class="form-group">
-                                    <label>Name</label>
-                                    <input type="text" class="form-control" required="">
-                                </div>
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="email" class="form-control" required="">
-                                </div>
-                                <div class="form-group">
-                                    <label>Address</label>
-                                    <textarea class="form-control" required=""></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Phone</label>
-                                    <input type="text" class="form-control" required="">
-                                </div>					
-                            </div>
-                            <div class="modal-footer">
-                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                <input type="submit" class="btn btn-info" value="Save">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div id="deleteEmployeeModal" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form>
-                            <div class="modal-header">						
-                                <h4 class="modal-title">Delete Employee</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            </div>
-                            <div class="modal-body">					
-                                <p>Are you sure you want to delete these Records?</p>
-                                <p class="text-warning"><small>This action cannot be undone.</small></p>
-                            </div>
-                            <div class="modal-footer">
-                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                <input type="submit" class="btn btn-danger" value="Delete">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div> -->
-
-            <!-- <div class="modal-backdrop fade show"></div> -->
-
-            <!-- <div class="row">
-                <div class="col-sm-6">
-                    <h2>Manage <b>Employees</b></h2>
-                </div>
-                <div class="col-sm-6">
-                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons"></i> <span>Add New Employee</span></a>
-                    <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons"></i> <span>Delete</span></a>						
-                </div>
-            </div>
-
-            <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="" data-original-title="Edit"></i></a>
-            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="" data-original-title="Delete"></i></a> -->
-
         </div>
     </main>
 
