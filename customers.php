@@ -1,10 +1,10 @@
 <?php
-    $page="Inventory";
+    $page="Orders";
 ?>
 <!doctype html>
 <html lang="en" data-bs-theme="dark">
 <head>
-	<title>Inventory</title>
+	<title>Customers</title>
 	<meta charset="utf-8" />
 	<!-- Required meta tag for Bootstrap -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,9 +23,7 @@
 
     <main>
         <div class="container">
-            <h1 class="display-3">Inventory</h1>
-
-            
+            <h1 class="display-3">Customers</h1>
             <div class="container mt-4">
 
                 <?php include('alert.php'); ?>
@@ -45,16 +43,18 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Name</th>
-                                            <th>Volume</th>
-                                            <th>Year</th>
-                                            <th>ABV (%)</th>
-                                            <th>Qty</th>
+                                            <th>Order Time</th>
+                                            <th>Total</th>
+                                            <th>Status</th>
+                                            <th>Delivery Time</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php 
-                                            $query = "SELECT * FROM products";
+                                            $query = "SELECT orders.id, user_id, CONCAT(users.name, ' ', users.surname) AS customer, 
+                                                order_time, order_total, status, delivery_time 
+                                                FROM `orders` JOIN users ON orders.user_id = users.id;";
                                             // $records = $conn->prepare($query);
 	                                        //$records->bindParam(':id', $_SESSION['user_id']);
 	                                        // $records->execute();
@@ -68,14 +68,14 @@
                                                 ?>
                                                     <tr>
                                                         <td><?= $row['id']; ?></td>
-                                                        <td><?= $row['name_en']; ?></td>
-                                                        <td><?= $row['volume']; ?></td>
-                                                        <td><?= $row['year']; ?></td>
-                                                        <td><?= $row['abv']; ?></td>
-                                                        <td><?= $row['qty']; ?></td>
+                                                        <td><?= $row['customer']; ?></td>
+                                                        <td><?= $row['order_time']; ?></td>
+                                                        <td><?= $row['order_total']; ?></td>
+                                                        <td><?= $row['status']; ?></td>
+                                                        <td><?= $row['delivery_time']; ?></td>
                                                         <td>
-                                                            <!-- <a href="inventory-view.php?id=<?= $row['id']; ?>" class="btn btn-info btn-sm">View</a> -->
-                                                            <a href="inventory-edit.php?id=<?= $row['id']; ?>" class="btn btn-success btn-sm">Edit</a>
+                                                            <a href="order-view.php?id=<?= $row['id']; ?>" class="btn btn-info btn-sm">View</a>
+                                                            <!-- <a href="inventory-edit.php?id=<?= $row['id']; ?>" class="btn btn-success btn-sm">Edit</a> -->
                                                             <!-- <form action="code.php" method="POST" class="d-inline">
                                                                 <button type="submit" name="delete_inventory" value="<?=$row['id'];?>" class="btn btn-danger btn-sm">Delete</button>
                                                             </form> -->

@@ -478,3 +478,10 @@ body#checkout-page #site-info {
 	background-repeat: no-repeat;
 	background-size: cover;
   }
+
+  .fa-layers  {
+	font-size: 1em;
+   }
+   .fa-layers-counter {
+	   font-size: 2em;
+   }

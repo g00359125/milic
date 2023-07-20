@@ -9,7 +9,7 @@
 		
 		    // Properties
 		
-			this.cartPrefix = "winery-"; // Prefix string to be prepended to the cart's name in the session storage
+			this.cartPrefix = "milic-"; // Prefix string to be prepended to the cart's name in the session storage
 			this.cartName = this.cartPrefix + "cart"; // Cart name in the session storage
 			this.shippingRates = this.cartPrefix + "shipping-rates"; // Shipping rates key in the session storage
 			this.total = this.cartPrefix + "total"; // Total key in the session storage
@@ -27,7 +27,7 @@
 			this.$emptyCartBtn = this.$shoppingCartActions.find( "#empty-cart" ); // Empty cart button
 			this.$userDetails = this.$element.find( "#user-details-content" ); // Element that displays the user information
 			this.$paypalForm = this.$element.find( "#paypal-form" ); // PayPal form
-			
+			this.$itemCounters = this.$element.find(".itemCounter"); // Cart badge, number of items, summary
 			
 			this.currency = "&euro;"; // HTML entity of the currency to be displayed in the layout
 			this.currencyString = "€"; // Currency symbol as textual string
@@ -196,12 +196,12 @@
 
 				$( document ).on( "click", ".pdelete a", function( e ) {
 					e.preventDefault();
-					var productName = $( this ).data( "product" );
+					var productId = $( this ).data( "id" );
 					var newItems = [];
 					for( var i = 0; i < items.length; ++i ) {
 						var item = items[i];
-						var product = item.product;	
-						if( product == productName ) {
+						var id = item.id;	
+						if( id == productId ) {
 							items.splice( i, 1 );
 						}
 					}
@@ -227,8 +227,8 @@
 					self.storage.setItem( self.shippingRates, self._convertNumber( self._calculateShipping( totalQty ) ) );
 
 					self.storage.setItem( self.cartName, self._toJSONString( updatedCart ) );
-					$( this ).parents( "tr" ).remove();
-					self.$subTotal[0].innerHTML = self.currency + " " + self.storage.getItem( self.total );
+					$( this ).parents( "#"+ productId ).remove();
+					self.$subTotal[0].innerHTML = self.currency + " " + self.storage.getItem( self.total ).toFixed(2);
 				});
 			}
 		},
@@ -239,29 +239,73 @@
 			if( this.$formCart.length ) {
 				var cart = this._toJSONObject( this.storage.getItem( this.cartName ) );
 				var items = cart.items;
-				var $tableCart = this.$formCart.find( ".shopping-cart" );
-				var $tableCartBody = $tableCart.find( "tbody" );
-
+				var $cartItems = this.$formCart.find( "#cart-items" );
+				this.$itemCounters.each(function(){
+					var $counter = $( this );
+					$counter.html(items.length);
+				});
 				if( items.length == 0 ) {
-					$tableCartBody.html( "" );	
+					$cartItems.html( "" );	
 				} else {
 				
 				
 					for( var i = 0; i < items.length; ++i ) {
 						var item = items[i];
-						var product = item.product;
-						var price = this.currency + " " + item.price;
-						var qty = item.qty;
-						var html = "<tr><td class='pname'>" + product + "</td>" + "<td class='pqty'><input type='text' value='" + qty + "' class='qty'/></td>";
-					    	html += "<td class='pprice'>" + price + "</td><td class='pdelete'><a href='' data-product='" + product + "'>&times;</a></td></tr>";
+						var html = `
+						<div class="row mb-4 d-flex justify-content-between align-items-center" id="${item['id']}">
+							<div class="col-md-2 col-lg-2 col-xl-2">
+								<img src="./${item['image']}" class="img-fluid rounded-3" alt="${item['image']}">
+							</div>
+							<div class="col-md-3 col-lg-3 col-xl-3">
+								<h6 class="text-muted">${item['name']}</h6>
+								<h6 class="text-black mb-0">${item['desc']}</h6>
+							</div>
+							<div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+								<button class="btn btn-link px-2"
+									onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+									<i class="fas fa-minus"></i>
+								</button>
+
+								<input id="form1" min="0" name="quantity" value="1" type="number"
+									class="form-control form-control-sm" />
+
+								<button class="btn btn-link px-2"
+									onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+									<i class="fas fa-plus"></i>
+								</button>
+							</div>
+							<div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+								<h6 class="mb-0">${item['price'].toFixed(2)} ${item['currency']}</h6>
+							</div>
+							<div class="col-md-1 col-lg-1 col-xl-1 text-end pdelete">
+								<a href='' data-id='${item['id']}' class="text-muted"><i class="fas fa-times"></i></a>
+							</div>
+							<hr class="my-4">
+						</div>
+						`;
+						// var html = "<tr>";
+						// 	html += "<td>" + item.id + "</td>";
+						// 	html += "<td>" + item.name + "</td>";
+						// 	html += "<td>" + item.desc + "</td>";
+						// 	html += "<td>" + item.abv + "</td>";
+						// 	html += "<td>" + item.volume + "</td>";
+						// 	html += "<td>" + item.year + "</td>";
+						// 	html += "<td>" + item.image + "</td>";
+						// 	html += "<td>" + item.stock + "</td>";
+						// 	html += "<td class='pqty'><input type='text' value='" + item.qty + "' class='qty'/></td>";
+					    // 	html += "<td class='pprice'>" + item.price + "</td>";
+						// 	html += "<td>" + item.currency + "</td>";
+						// 	html += "<td class='pdelete'><a href='' data-id='" + item.id + "'>&times;</a></td>";
+						// 	html += "</tr>";
 					
-						$tableCartBody.html( $tableCartBody.html() + html );
+						$cartItems.html( $cartItems.html() + html );
 					}
 
 				}
 
 				if( items.length == 0 ) {
 					this.$subTotal[0].innerHTML = this.currency + " " + 0.00;
+
 				} else {	
 				
 					var total = this.storage.getItem( this.total );
@@ -366,24 +410,34 @@
 				var $form = $( this );
 				var $product = $form.parent();
 				var price = self._convertString( $product.data( "price" ) );
-				var name =  $product.data( "name" );
+				var stock = $product.data("stock" );
+
 				
 				$form.on( "submit", function() {
+
 					var qty = self._convertString( $form.find( ".qty" ).val() );
 					var subTotal = qty * price;
 					var total = self._convertString( self.storage.getItem( self.total ) );
 					var sTotal = total + subTotal;
-					self.storage.setItem( self.total, sTotal );
+					self.storage.setItem( self.total, sTotal.toFixed(2) );
 					self._addToCart({
-						product: name,
+						id: $product.data("id"),
+						name: $product.data( "name"),
+						desc: $product.data( "desc"),
+						abv: $product.data( "abv"),
+						volume: $product.data("volume"),
+						year: $product.data("year"),
+						currency: $product.data("currency"),
+						image: $product.data("image"),
+						stock: stock,
 						price: price,
 						qty: qty
 					});
-					var shipping = self._convertString( self.storage.getItem( self.shippingRates ) );
-					var shippingRates = self._calculateShipping( qty );
-					var totalShipping = shipping + shippingRates;
+					// var shipping = self._convertString( self.storage.getItem( self.shippingRates ) );
+					// var shippingRates = self._calculateShipping( qty );
+					// var totalShipping = shipping + shippingRates;
 					
-					self.storage.setItem( self.shippingRates, totalShipping );
+					// self.storage.setItem( self.shippingRates, totalShipping );
 				});
 			});
 		},
@@ -418,9 +472,7 @@
 		
 		// Private methods
 		
-		
 		// Empties the session storage
-		
 		_emptyCart: function() {
 			this.storage.clear();
 		},
@@ -430,9 +482,6 @@
 		 * @param places Number the decimal places
 		 * @returns n Number the formatted number
 		 */
-		 
-		 
-		
 		_formatNumber: function( num, places ) {
 			var n = num.toFixed( places );
 			return n;
@@ -442,8 +491,6 @@
 		 * @param element Object the jQuery element that contains the relevant string
 		 * @returns price String the numeric string
 		 */
-		
-		
 		_extractPrice: function( element ) {
 			var self = this;
 			var text = element.text();
@@ -455,7 +502,6 @@
 		 * @param numStr String the numeric string to be converted
 		 * @returns num Number the number
 		 */
-		
 		_convertString: function( numStr ) {
 			var num;
 			if( /^[-+]?[0-9]+\.[0-9]+$/.test( numStr ) ) {
@@ -478,7 +524,6 @@
 		 * @param n Number the number to be converted
 		 * @returns str String the string returned
 		 */
-		
 		_convertNumber: function( n ) {
 			var str = n.toString();
 			return str;
@@ -488,7 +533,6 @@
 		 * @param str String the JSON string
 		 * @returns obj Object the JavaScript object
 		 */
-		
 		_toJSONObject: function( str ) {
 			var obj = JSON.parse( str );
 			return obj;
@@ -498,8 +542,6 @@
 		 * @param obj Object the JavaScript object
 		 * @returns str String the JSON string
 		 */
-		
-		
 		_toJSONString: function( obj ) {
 			var str = JSON.stringify( obj );
 			return str;
@@ -510,8 +552,6 @@
 		 * @param values Object the object to be added to the cart
 		 * @returns void
 		 */
-		
-		
 		_addToCart: function( values ) {
 			var cart = this.storage.getItem( this.cartName );
 			
@@ -527,7 +567,6 @@
 		 * @param qty Number the total quantity of items
 		 * @returns shipping Number the shipping rates
 		 */
-		
 		_calculateShipping: function( qty ) {
 			var shipping = 0;
 			if( qty >= 6 ) {
@@ -553,9 +592,6 @@
 		 * @param form Object the jQuery element of the checkout form
 		 * @returns valid Boolean true for success, false for failure
 		 */
-		 
-		 
-		
 		_validateForm: function( form ) {
 			var self = this;
 			var fields = self.requiredFields;
@@ -598,8 +634,6 @@
 		 * @param form Object the jQuery element of the checkout form
 		 * @returns void
 		 */
-		
-		
 		_saveFormData: function( form ) {
 			var self = this;
 			var $visibleSet = form.find( "fieldset:visible" );

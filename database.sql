@@ -67,3 +67,13 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+INSERT INTO `orders` (`id`, `user_id`, `order_time`, `order_total`, `status`, `delivery_time`) VALUES
+(1, 2, '2023-07-10 11:40:20', '6000.00', 'CREATED', NULL),
+(2, 3, '2023-07-10 09:43:00', '6000.00', 'CREATED', NULL),
+(3, 5, '2023-07-11 17:22:11', '2000.00', 'CREATED', NULL),
+(4, 6, '2023-07-11 15:02:19', '4000.00', 'CREATED', NULL),
+(5, 8, '2023-07-12 10:44:34', '4000.00', 'CREATED', NULL);
+COMMIT;
+
+INSERT INTO `order_details` (`order_id`, `product_id`, `qty`, `unit_price`, `discount`) VALUES ('1', '1', '4', '2000', '0');
+INSERT INTO `order_details` (`order_id`, `product_id`, `qty`, `unit_price`, `discount`) VALUES ('1', '2', '2', '2000', '0');

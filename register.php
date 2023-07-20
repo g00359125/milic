@@ -59,7 +59,7 @@ if ($message == "Successfully created new user") {
 	<script type="text/javascript" src="js/jquery.shop.js"></script>
 	<script type="text/javascript" src="js/color-modes.js"></script>
 </head>
-<body>
+<body id="site">
 <?php
 		require 'themeToggle.php';
 ?>

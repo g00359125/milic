@@ -41,29 +41,34 @@ if( isset($_SESSION['user_id']) ){
             </ul>
 
             <div class="text-end">
-                <?php if (!empty($user)) { ?>
-                    <a href="#" class="text-decoration-none dropdown-toggle text-white" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                <?php echo $user['name'].' '.$user['surname'].' '; ?>
-                    </a>
-                    <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser" style="">
-                        <li><a class="dropdown-item" href="profile.php">Profile</a></li>
-                        <li><a class="dropdown-item" href="shoppingCart.php">View Cart</a></li>
-                        <li><a class="dropdown-item" href="orderHistory.php">Order History</a></li>
+            <?php if (!empty($user)) { ?>
+                <a href="#" class="text-decoration-none dropdown-toggle text-white" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+            <?php echo $user['name'].' '.$user['surname'].' '; ?>
+                </a>
+                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser" style="">
+                    <li><a class="dropdown-item" href="profile.php">Profile</a></li>
+                    <li><a class="dropdown-item" href="shoppingCart.php">View Cart</a></li>
+                    <li><a class="dropdown-item" href="orderHistory.php">Order History</a></li>
+                    <li><hr class="dropdown-divider"></li>
+            <?php if(!empty($user) && $user['isAdmin']) { ?>
+                        <li><a class="dropdown-item" href="customers.php">Customers</a></li>
+                        <li><a class="dropdown-item" href="orders.php">Orders</a></li>
+                        <li><a class="dropdown-item" href="inventory.php">Inventory</a></li>
+                        <li><a class="dropdown-item" href="prices.php">Prices</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <?php if(!empty($user) && $user['isAdmin']) { ?>
-                            <li><a class="dropdown-item" href="orders.php">Orders</a></li>
-                            <li><a class="dropdown-item" href="inventory.php">Inventory</a></li>
-                            <li><a class="dropdown-item" href="prices.php">Prices</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                        <?php };?>
-                        <li><a class="dropdown-item" href="logout.php">Logout</a></li>
-                    </ul>
-                    <a class="text-reset me-3" href="shoppingCart.php"><i class="fas fa-shopping-cart"></i></a>
-                    <a href="logout.php"><button type="button" class="btn btn-outline-light me-2">Logout</button></a>
-                <?php } else {?>
-                    <a href="login.php"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
-                    <a href="register.php"><button type="button" class="btn btn-outline-light me-2">Register</button></a>
-                <?php }; ?>
+            <?php };?>
+                    <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+                </ul>
+                <a class="text-reset me-3" href="shoppingCart.php" style="text-decoration: none;">
+                    <span class="fa-layers fa-fw">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="fa-layers-counter itemCounter" data-fa-transform="up-4">0</span>
+                </a>
+                <a href="logout.php"><button type="button" class="btn btn-outline-light me-2">Logout</button></a>
+            <?php } else {?>
+                <a href="login.php"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
+                <a href="register.php"><button type="button" class="btn btn-outline-light me-2">Register</button></a>
+            <?php }; ?>
             </div>
         </div>
     </div>

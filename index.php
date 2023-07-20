@@ -16,7 +16,7 @@
 	<script type="text/javascript" src="js/jquery.shop.js"></script>
 	<script type="text/javascript" src="js/color-modes.js"></script>
 </head>
-<body>
+<body id="site">
 	<?php
 		require 'header.php';
 	?>
@@ -49,7 +49,7 @@
 				</div>
 				<div class="col-md-5">
 					<!-- <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"></rect><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg> -->
-					<img src="images/wine1.jpg" width="500">
+					<img src="images/kajsija.jpg" width="500">
 				</div>
 			</div>
 
@@ -62,7 +62,7 @@
 				</div>
 				<div class="col-md-5 order-md-1">
 					<!-- <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"></rect><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg> -->
-					<img src="images/wine2.jpg" width="500">
+					<img src="images/orah.jpg" width="500">
 				</div>
 			</div>
 
@@ -75,7 +75,7 @@
 				</div>
 				<div class="col-md-5">
 					<!-- <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"></rect><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg> -->
-					<img src="images/wine3.jpg" width="500">
+					<img src="images/dunja.jpg" width="500">
 				</div>
 			</div>
 
