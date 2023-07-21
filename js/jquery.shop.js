@@ -228,7 +228,7 @@
 
 					self.storage.setItem( self.cartName, self._toJSONString( updatedCart ) );
 					$( this ).parents( "#"+ productId ).remove();
-					self.$subTotal[0].innerHTML = self.currency + " " + self.storage.getItem( self.total ).toFixed(2);
+					self.$subTotal[0].innerHTML = self.currency + " " + self.storage.getItem( self.total );
 				});
 			}
 		},
@@ -236,14 +236,16 @@
 		// Displays the shopping cart
 		
 		displayCart: function() {
+			var cart = this._toJSONObject( this.storage.getItem( this.cartName ) );
+			var items = cart.items;
+			this.$itemCounters.each(function(){
+				var $counter = $( this );
+				$counter.html(items.length);
+			});
 			if( this.$formCart.length ) {
-				var cart = this._toJSONObject( this.storage.getItem( this.cartName ) );
-				var items = cart.items;
+				
 				var $cartItems = this.$formCart.find( "#cart-items" );
-				this.$itemCounters.each(function(){
-					var $counter = $( this );
-					$counter.html(items.length);
-				});
+				
 				if( items.length == 0 ) {
 					$cartItems.html( "" );	
 				} else {
@@ -266,7 +268,7 @@
 									<i class="fas fa-minus"></i>
 								</button>
 
-								<input id="form1" min="0" name="quantity" value="1" type="number"
+								<input id="form1" min="0" name="quantity" value="${item['qty']}" type="number"
 									class="form-control form-control-sm" />
 
 								<button class="btn btn-link px-2"
@@ -275,7 +277,7 @@
 								</button>
 							</div>
 							<div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-								<h6 class="mb-0">${item['price'].toFixed(2)} ${item['currency']}</h6>
+								<h6 class="mb-0">${item['price']} ${item['currency']}</h6>
 							</div>
 							<div class="col-md-1 col-lg-1 col-xl-1 text-end pdelete">
 								<a href='' data-id='${item['id']}' class="text-muted"><i class="fas fa-times"></i></a>
@@ -409,7 +411,7 @@
 			self.$formAddToCart.each(function() {
 				var $form = $( this );
 				var $product = $form.parent();
-				var price = self._convertString( $product.data( "price" ) );
+				var price = self._convertString( $product.data( "price" ) ).toFixed(2);
 				var stock = $product.data("stock" );
 
 				

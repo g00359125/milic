@@ -1,5 +1,5 @@
 <?php 
-	$page="Products";
+	$page="Shop";
 ?>
 <!doctype html>
 <html lang="en" data-bs-theme="dark">
@@ -21,13 +21,13 @@
 	?>
 	<main>
 		<div class="container">
-			<h1 class="display-3">Products</h1>
+			<h1 class="display-3">Shop</h1>
 
 			<?php include('alert.php'); ?>
 
 			<!-- <div class="row"> -->
 				<!-- <div class="col-md-12"> -->
-				<div class="card-group">
+				<div class="row row-cols-3 row-cols-md-3 g-4">
 				<?php 
 					$query = "SELECT * FROM `products` LEFT JOIN prices ON products.id = prices.product_id";
 					$counter = 0;	
@@ -35,12 +35,13 @@
 					while ($row = $stmt->fetch()){
 						$counter++;
 				?>
-					<div class="card" >
-						<div class="card-header">
+					<div class="col">
+					<div class="card h-100">
+						<div class="card-header px-0 py-0">
 							<img src="images/<?= $row['image']; ?>" alt="" class="card-img-top"/>
 						</div>
-						<div class="card-body">	
-							<h5 class="card-title"><?= $row['name_en']; ?></h5>				
+						<div class="card-body text-center">	
+							<h3 class="card-title"><?= $row['name_en']; ?></h3>				
 							<div class="product-description" 
 								data-id="<?=$row['product_id'];?>"
 								data-name="<?=$row['name_en'];?>" 
@@ -49,21 +50,48 @@
 								data-volume="<?=$row['volume'];?>"
 								data-year="<?=$row['year'];?>"
 								data-image="images/<?=$row['image'];?>"
-								data-stock="30"
+								data-stock="<?=$row['qty'];?>"
 								data-price="<?=$row['price_eur'];?>"
 								data-currency="EUR"
 							>
-								<p class="product-price"><?= $row['price_eur']; ?> EUR</p> 
-								<p>ABV: <?= $row['abv']; ?> % </p>
-								<p>Volume: <?= $row['volume']; ?> L </p>
-								<p>Year: <?= $row['year']; ?></p>
-								<form class="add-to-cart" action="shoppingCart.php" method="get">
-									<div>
-										<label for="qty-<?=$row['product_id'];?>">Quantity</label>
-										<input type="text" name="qty-<?=$row['product_id'];?>" id="qty-<?=$row['product_id'];?>" class="qty" value="1" />
-									</div>
-									<p><input type="submit" value="Add to cart" class="btn" /></p>
-								</form>
+							<p class="card-text text-muted">ABV: <?= $row['abv']; ?> % | Vol: <?= $row['volume']; ?> L | Year: <?= $row['year']; ?></p>	
+							<p class=""><?= $row['desc_en']; ?></p>
+							<p class="product-price" style="font-size: 2rem;"><strong><?= $row['price_eur']; ?> EUR</strong></p>
+							<form class="add-to-cart row g-3" action="shoppingCart.php" method="get">
+								<!-- <div class="col-sm-1 offset-sm-1">
+									<button class="btn btn-link px-2"
+										onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+										<i class="fas fa-minus"></i>
+									</button>
+								</div> -->
+								<div class="col-sm-5 offset-sm-1">
+									<!-- <label class="form-label" for="qty-<?=$row['product_id'];?>">Quantity</label> -->
+									<input type="number" 
+									       name="qty-<?=$row['product_id'];?>" 
+										   id="qty-<?=$row['product_id'];?>" 
+										   min="0" max="<?=$row['qty'];?>" 
+										   class="qty form-control form-control-sm text-center <?=$row['qty'] == 0 ? 'disabled' : 'enabled';?>" 
+										   value="<?=$row['qty'] == 0 ? 0 : 1;?>" />
+								</div>
+								<!-- <div class="col-sm-1">
+									<button class="btn btn-link px-2" 
+										onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+										<i class="fas fa-plus"></i>
+									</button>
+								</div> -->
+								<div class="col-sm-4">
+									<input type="submit" value="Add to cart" class="btn btn-secondary <?=$row['qty'] == 0 ? 'disabled' : 'enabled';?>" />
+								</div>
+							</form>
+							<p></p>
+							<div class="card-footer px-0 py-0">
+							<?php 
+								if ($row['qty'] == 0)
+									echo '<small class="text-danger" id="stock">Sorry out of stock</small>';
+								else 
+									echo '<small class="text-body-secondary" id="stock">Only '.$row['qty'].' left</small>';
+							?>
+							</div>
 							</div>
 						
 							<!-- <a href="inventory-edit.php?id=<?= $row['id']; ?>" class="btn btn-success btn-sm">Edit</a> -->
@@ -71,6 +99,7 @@
 								<button type="submit" name="delete_inventory" value="<?=$row['id'];?>" class="btn btn-danger btn-sm">Delete</button>
 							</form> -->
 						</div>
+					</div>
 					</div>
 				<?php
 					}
@@ -82,59 +111,6 @@
 				</div>
 			<!-- </div> -->
 		</div>
-		<h1 class="display-3"><?php echo $page; ?></h1>
-		<ul>
-			<li>
-				<div class="product-image">
-					<img src="images/wine1.jpg" alt="" />
-				</div>
-				<div class="product-description" data-name="Wine #1" data-price="5">
-					<h3 class="product-name">Dunja</h3>
-					<p class="product-price">&euro; 5</p>
-					<form class="add-to-cart" action="shoppingCart.php" method="get">
-						<div>
-							<label for="qty-5">Quantity</label>
-							<input type="text" name="qty-5" id="qty-5" class="qty" value="1" />
-						</div>
-						<p><input type="submit" value="Add to cart" class="btn" /></p>
-					</form>
-				</div>
-			</li>
-			<li>
-				<div class="product-image">
-					<img src="images/wine2.jpg" alt="" />
-				</div>
-				<div class="product-description" data-name="Wine #2" data-price="8">
-					<h3 class="product-name">Kajsija</h3>
-					<p class="product-price">&euro; 8</p>
-					<form class="add-to-cart" action="shoppingCart.php" method="get">
-						<div>
-							<label for="qty-2">Quantity</label>
-							<input type="text" name="qty-2" id="qty-2" class="qty" value="1" />
-						</div>
-						<p><input type="submit" value="Add to cart" class="btn" /></p>
-					</form>
-				</div>
-			</li>
-
-			<li>
-				<div class="product-image">
-					<img src="images/wine3.jpg" alt="" />
-				</div>
-				<div class="product-description" data-name="Wine #3" data-price="11">
-					<h3 class="product-name">Orah</h3>
-					<p class="product-price">&euro; 11</p>
-					<form class="add-to-cart" action="shoppingCart.php" method="get">
-						<div>
-							<label for="qty-3">Quantity</label>
-							<input type="text" name="qty-3" id="qty-3" class="qty" value="1" />
-						</div>
-						<p><input type="submit" value="Add to cart" class="btn" /></p>
-					</form>
-				</div>
-			</li>
-		</ul>
-
 	</main>
 	<?php
 		require 'footer.php';

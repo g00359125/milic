@@ -19,15 +19,17 @@
     
     <?php
         require 'header.php';
+        if( isset($_SESSION['user_id']) ){
     ?>
-
     <main>
         <div class="container">
             <h1 class="display-3">Profile</h1>
         </div>
     </main>
-
-    <?php
+    <?php 
+        } else {
+            echo '<h1 class="display-3">No Access.</h1>';
+        }        
         require 'footer.php';
     ?>
     <!-- Optional JavaScript -->

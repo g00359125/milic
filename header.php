@@ -35,7 +35,7 @@ if( isset($_SESSION['user_id']) ){
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="index.php" class="nav-link px-2 <?php if($page == 'Home') echo 'text-secondary'; else echo 'text-white' ?>">Home</a></li>
-                <li><a href="products.php" class="nav-link px-2 <?php if($page == 'Products') echo 'text-secondary'; else echo 'text-white' ?>">Products</a></li>
+                <li><a href="shop.php" class="nav-link px-2 <?php if($page == 'Shop') echo 'text-secondary'; else echo 'text-white' ?>">Shop</a></li>
                 <li><a href="contact.php" class="nav-link px-2 <?php if($page == 'Contact') echo 'text-secondary'; else echo 'text-white' ?>">Contact</a></li>
                 <li><a href="about.php" class="nav-link px-2 <?php if($page == 'About') echo 'text-secondary'; else echo 'text-white' ?>">About</a></li>
             </ul>

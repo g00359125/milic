@@ -43,7 +43,7 @@
 											</div>
 						
 											<div class="pt-5">
-												<h6 class="mb-0"><a href="products.php" class="text-body"><i
+												<h6 class="mb-0"><a href="shop.php" class="text-body"><i
 													class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a></h6>
 											</div>
 										</div>
@@ -111,7 +111,7 @@
 							<input type="submit" name="delete" id="empty-cart" class="btn" value="Empty Cart" />
 						</li>
 						<li>
-							<a href="products.php" class="btn">Continue Shopping</a>
+							<a href="shop.php" class="btn">Continue Shopping</a>
 							<!-- Uncomment next line to integrate shopping cart -->
 							<!-- <a href="shop.html" class="btn">Continue Shopping</a> -->
 						</li>

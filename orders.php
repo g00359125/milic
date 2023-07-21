@@ -4,7 +4,7 @@
 <!doctype html>
 <html lang="en" data-bs-theme="dark">
 <head>
-	<title>Orders</title>
+	<title><?=$page?></title>
 	<meta charset="utf-8" />
 	<!-- Required meta tag for Bootstrap -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,7 +23,7 @@
 
     <main>
         <div class="container">
-            <h1 class="display-3">Orders</h1>
+            <h1 class="display-3"><?=$page?></h1>
             <div class="container mt-4">
 
                 <?php include('alert.php'); ?>
