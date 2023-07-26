@@ -21,7 +21,7 @@
         require 'header.php';
     ?>
 
-    <main>
+    <main class="vh-auto">
         <div class="container">
             <h1 class="display-3">About us</h1>
         </div>

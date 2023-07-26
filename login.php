@@ -18,8 +18,9 @@ if(!empty($_POST['email']) && !empty($_POST['password'])):
 	$message = '';
 
 if ($results === false || count($results) == 0 || !password_verify($_POST['password'], $results['password'])) {
-        $message = 'Sorry, those credentials do not match';
-    } else {
+        $message = 'Sorry, <br>those credentials do not match';
+		$_SESSION['alert'] = $message;
+	} else {
         $_SESSION['user_id'] = $results['id'];
         header('Location: ./index.php');
     }
@@ -61,6 +62,8 @@ endif;
 		require 'themeToggle.php';
 	?>
 	<main class="form-signin">
+		<?php include('alert.php'); ?>
+
 		<form action="login.php" method="POST">
 			 <picture class="mb-4">
   				 <source srcset="images/lLogo.png" media="(prefers-color-scheme: light)"/>

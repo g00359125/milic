@@ -18,7 +18,7 @@ if( isset($_SESSION['user_id']) ){
 
 }
 ?>
-<header class="p-3 bg-dark text-white">
+<header class="p-3 bg-dark text-white sticky-top">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="./index.php" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
@@ -59,6 +59,9 @@ if( isset($_SESSION['user_id']) ){
             <?php };?>
                     <li><a class="dropdown-item" href="logout.php">Logout</a></li>
                 </ul>
+                <i class="fa-solid fa-cart-shopping position-relative">
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">+99 </span>
+                </i>
                 <a class="text-reset me-3" href="shoppingCart.php" style="text-decoration: none;">
                     <span class="fa-layers fa-fw">
                     <i class="fa-solid fa-cart-shopping"></i>
