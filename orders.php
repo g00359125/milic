@@ -54,7 +54,7 @@
                                         <?php 
                                             $query = "SELECT orders.id, user_id, CONCAT(users.name, ' ', users.surname) AS customer, 
                                                 order_time, order_total, status, delivery_time 
-                                                FROM `orders` JOIN users ON orders.user_id = users.id;";
+                                                FROM `orders` JOIN users ON orders.user_id = users.id ORDER BY order_time DESC;";
                                             // $query = "SELECT * FROM orders;";
                                             // $records = $conn->prepare($query);
 	                                        //$records->bindParam(':id', $_SESSION['user_id']);

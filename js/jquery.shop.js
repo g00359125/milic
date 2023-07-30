@@ -22,6 +22,7 @@
 			this.$checkoutOrderForm = this.$element.find( "#checkout-order-form" ); // Checkout user details form
 			this.$shipping = this.$element.find( "#sshipping" ); // Element that displays the shipping rates
 			this.$subTotal = this.$element.find( "#stotal" ); // Element that displays the subtotal charges
+			this.$totalCharges = this.$element.find( "#totalCharges" ); // Element that displays the total charges
 			this.$shoppingCartActions = this.$element.find( "#shopping-cart-actions" ); // Cart actions links
 			this.$updateCartBtn = this.$shoppingCartActions.find( "#update-cart" ); // Update cart button
 			this.$emptyCartBtn = this.$shoppingCartActions.find( "#empty-cart" ); // Empty cart button
@@ -29,7 +30,7 @@
 			this.$paypalForm = this.$element.find( "#paypal-form" ); // PayPal form
 			this.$itemCounters = this.$element.find(".itemCounter"); // Cart badge, number of items, summary
 			
-			this.currency = "&euro;"; // HTML entity of the currency to be displayed in the layout
+			this.currency = "EUR"; // HTML entity of the currency to be displayed in the layout
 			this.currencyString = "€"; // Currency symbol as textual string
 			this.paypalCurrency = "EUR"; // PayPal's currency code
 			this.paypalBusinessEmail = "yourbusiness@email.com"; // Your Business PayPal's account email address
@@ -65,7 +66,6 @@
 		// Public methods
 		
 		// Creates the cart keys in the session storage
-		
 		createCart: function() {
 			if( this.storage.getItem( this.cartName ) == null ) {
 			
@@ -73,13 +73,12 @@
 				cart.items = [];
 			
 				this.storage.setItem( this.cartName, this._toJSONString( cart ) );
-				this.storage.setItem( this.shippingRates, "0" );
-				this.storage.setItem( this.total, "0" );
+				this.storage.setItem( this.shippingRates, 0 );
+				this.storage.setItem( this.total, 0 );
 			}
 		},
 		
 		// Appends the required hidden values to the PayPal's form before submitting
-		
 		populatePayPalForm: function() {
 			var self = this;
 			if( self.$paypalForm.length ) {
@@ -187,7 +186,6 @@
 		},
 
 		// Delete a product from the shopping cart
-
 		deleteProduct: function() {
 			var self = this;
 			if( self.$formCart.length ) {
@@ -202,6 +200,7 @@
 						var item = items[i];
 						var id = item.id;	
 						if( id == productId ) {
+
 							items.splice( i, 1 );
 						}
 					}
@@ -222,13 +221,17 @@
 							totalQty += prod.qty;
 						}
 					}
+					
 
 					self.storage.setItem( self.total, self._convertNumber( updatedTotal ) );
-					self.storage.setItem( self.shippingRates, self._convertNumber( self._calculateShipping( totalQty ) ) );
+					var shipping = self._calculateShipping( totalQty ).toFixed(2);
+					self.storage.setItem( self.shippingRates, self._convertNumber(shipping));
 
 					self.storage.setItem( self.cartName, self._toJSONString( updatedCart ) );
+					self._updateCounters(updatedCart.items);
 					$( this ).parents( "#"+ productId ).remove();
-					self.$subTotal[0].innerHTML = self.currency + " " + self.storage.getItem( self.total );
+					self.$subTotal[0].value = self.storage.getItem( self.total ) + " " + self.currency;
+					self.$totalCharges[0].value = self.storage.getItem( self.total + shipping ) + " " + self.currency;
 				});
 			}
 		},
@@ -238,10 +241,7 @@
 		displayCart: function() {
 			var cart = this._toJSONObject( this.storage.getItem( this.cartName ) );
 			var items = cart.items;
-			this.$itemCounters.each(function(){
-				var $counter = $( this );
-				$counter.html(items.length);
-			});
+			this._updateCounters(items);
 			if( this.$formCart.length ) {
 				
 				var $cartItems = this.$formCart.find( "#cart-items" );
@@ -253,8 +253,9 @@
 				
 					for( var i = 0; i < items.length; ++i ) {
 						var item = items[i];
+						var price = item['price'].toFixed(2);
 						var html = `
-						<div class="row mb-4 d-flex justify-content-between align-items-center" id="${item['id']}">
+						<div class="row product mb-4 d-flex justify-content-between align-items-center" id="${item['id']}">
 							<div class="col-md-2 col-lg-2 col-xl-2">
 								<img src="./${item['image']}" class="img-fluid rounded-3" alt="${item['image']}">
 							</div>
@@ -262,14 +263,19 @@
 								<h6 class="text-muted">${item['name']}</h6>
 								<h6 class="text-black mb-0">${item['desc']}</h6>
 							</div>
-							<div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+							<div class="pqty col-md-3 col-lg-3 col-xl-2 d-flex">
 								<button class="btn btn-link px-2"
 									onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
 									<i class="fas fa-minus"></i>
 								</button>
 
-								<input id="form1" min="0" name="quantity" value="${item['qty']}" type="number"
-									class="form-control form-control-sm" />
+								<input id="qty-${item['id']}" 
+								       min="0"
+									   max="${item['stock']}"
+									   name="qty-${item['id']}" 
+									   value="${item['qty']}" 
+									   type="number"
+									   class="qty form-control form-control-sm" />
 
 								<button class="btn btn-link px-2"
 									onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
@@ -277,7 +283,11 @@
 								</button>
 							</div>
 							<div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-								<h6 class="mb-0">${item['price']} ${item['currency']}</h6>
+								<input id="price_${item['currency']}-${item['id']}" 
+									   name="price_${item['currency']}-${item['id']}" 
+									   value="${price} ${item['currency']}" 
+									   type="text"
+									   class="mb-0 form-control form-control-sm" readonly/>
 							</div>
 							<div class="col-md-1 col-lg-1 col-xl-1 text-end pdelete">
 								<a href='' data-id='${item['id']}' class="text-muted"><i class="fas fa-times"></i></a>
@@ -306,12 +316,15 @@
 				}
 
 				if( items.length == 0 ) {
-					this.$subTotal[0].innerHTML = this.currency + " " + 0.00;
-
+					this.$subTotal[0].value = 0.00 + " " + this.currency;
+					this.$totalCharges[0].value = 0.00 + " " +this.currency;
 				} else {	
 				
-					var total = this.storage.getItem( this.total );
-					this.$subTotal[0].innerHTML = this.currency + " " + total;
+					var total = this._convertString(this.storage.getItem( this.total ));
+					this.$subTotal[0].value = total.toFixed(2) + " " + this.currency;
+
+					var shipping = this._convertString(this.storage.getItem( this.shippingRates ));
+					this.$totalCharges[0].value = (total + shipping).toFixed(2) + " " + this.currency;
 				}
 			} else if( this.$checkoutCart.length ) {
 				var checkoutCart = this._toJSONObject( this.storage.getItem( this.cartName ) );
@@ -351,7 +364,6 @@
 		
 		// Empties the cart by calling the _emptyCart() method
 		// @see $.Shop._emptyCart()
-		
 		emptyCart: function() {
 			var self = this;
 			if( self.$emptyCartBtn.length ) {
@@ -362,56 +374,51 @@
 		},
 		
 		// Updates the cart
-		
 		updateCart: function() {
+			var cart = this._toJSONObject( this.storage.getItem( this.cartName ) );
+			var items = cart.items;
+			var total = this._convertString(this.storage.getItem( this.total ));
 			var self = this;
-		  if( self.$updateCartBtn.length ) {
-			self.$updateCartBtn.on( "click", function() {
-				var $rows = self.$formCart.find( "tbody tr" );
-				var cart = self.storage.getItem( self.cartName );
-				var shippingRates = self.storage.getItem( self.shippingRates );
-				var total = self.storage.getItem( self.total );
-				
-				var updatedTotal = 0;
+		  	if( self.$updateCartBtn.length ) {
+				self.$updateCartBtn.on( "click", function() {
+				console.log("Update Cart");
+				var $rows = self.$formCart.find( ".product" );
+				console.log($rows.length);
 				var totalQty = 0;
-				var updatedCart = {};
-				updatedCart.items = [];
 				
 				$rows.each(function() {
 					var $row = $( this );
-					var pname = $.trim( $row.find( ".pname" ).text() );
-					var pqty = self._convertString( $row.find( ".pqty > .qty" ).val() );
-					var pprice = self._convertString( self._extractPrice( $row.find( ".pprice" ) ) );
-					
-					var cartObj = {
-						product: pname,
-						price: pprice,
-						qty: pqty
-					};
-					
-					updatedCart.items.push( cartObj );
-					
-					var subTotal = pqty * pprice;
-					updatedTotal += subTotal;
-					totalQty += pqty;
+					var newQty = self._convertString($row.find( ".pqty > .qty" ).val());
+					console.log('newQty=' + newQty);
+					var pid = self._convertString( $row.find( ".pqty > .qty" ).attr('id').split("-")[1]);
+					console.log('pid=' + pid);
+					items.forEach(element => {
+						if(element['id'] == pid){
+							oldQty = element['qty'];
+							console.log('oldQty=' + oldQty);
+							element['qty'] = newQty;
+							console.log('oldTotal=' + total);
+							total += (newQty - oldQty)*element['price'];
+							console.log('newTotal=' + total);
+						}
+					})
 				});
+				cart.items = items;
 				
-				self.storage.setItem( self.total, self._convertNumber( updatedTotal ) );
-				self.storage.setItem( self.shippingRates, self._convertNumber( self._calculateShipping( totalQty ) ) );
-				self.storage.setItem( self.cartName, self._toJSONString( updatedCart ) );
+				self.storage.setItem( self.total, total.toFixed(2));
+				self.storage.setItem( self.cartName, self._toJSONString( cart ) );
 				
 			});
 		  }
 		},
 		
 		// Adds items to the shopping cart
-		
 		handleAddToCartForm: function() {
 			var self = this;
 			self.$formAddToCart.each(function() {
 				var $form = $( this );
 				var $product = $form.parent();
-				var price = self._convertString( $product.data( "price" ) ).toFixed(2);
+				var price = self._convertString( $product.data( "price" ) );
 				var stock = $product.data("stock" );
 
 				
@@ -423,17 +430,17 @@
 					var sTotal = total + subTotal;
 					self.storage.setItem( self.total, sTotal.toFixed(2) );
 					self._addToCart({
-						id: $product.data("id"),
+						id: self._convertString($product.data("id")),
 						name: $product.data( "name"),
 						desc: $product.data( "desc"),
-						abv: $product.data( "abv"),
-						volume: $product.data("volume"),
-						year: $product.data("year"),
+						abv: self._convertString($product.data( "abv")),
+						volume: self._convertString($product.data("volume")),
+						year: self._convertString($product.data("year")),
 						currency: $product.data("currency"),
 						image: $product.data("image"),
-						stock: stock,
-						price: price,
-						qty: qty
+						stock: self._convertString(stock),
+						price: self._convertString(price.toFixed(2)),
+						qty: self._convertString(qty)
 					});
 					// var shipping = self._convertString( self.storage.getItem( self.shippingRates ) );
 					// var shippingRates = self._calculateShipping( qty );
@@ -445,7 +452,6 @@
 		},
 		
 		// Handles the checkout form by adding a validation routine and saving user's info into the session storage
-		
 		handleCheckoutOrderForm: function() {
 			var self = this;
 			if( self.$checkoutOrderForm.length ) {
@@ -474,6 +480,16 @@
 		
 		// Private methods
 		
+		// Updates all counters (badge, num of items, total items)
+		_updateCounters: function(items) {
+			var numItems = 0;
+			items.forEach(item => numItems += item['qty'])
+			this.$itemCounters.each(function(){
+				var $counter = $( this );
+				$counter.html(numItems);
+			});
+		},
+
 		// Empties the session storage
 		_emptyCart: function() {
 			this.storage.clear();
@@ -560,7 +576,16 @@
 			var cartObject = this._toJSONObject( cart );
 			var cartCopy = cartObject;
 			var items = cartCopy.items;
-			items.push( values );
+			var found = false;
+			items.forEach(element => {
+				if(element['id'] == values['id']){
+					element['qty'] = element['qty'] + values['qty'];
+					element['stock'] = element['stock'] - values['qty'];
+					found = true;
+				} 
+			});
+			if (!found)
+				items.push( values );
 			
 			this.storage.setItem( this.cartName, this._toJSONString( cartCopy ) );
 		},
