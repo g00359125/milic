@@ -59,9 +59,9 @@ if( isset($_SESSION['user_id']) ){
             <?php };?>
                     <li><a class="dropdown-item" href="logout.php">Logout</a></li>
                 </ul>
-                <i class="fa-solid fa-cart-shopping position-relative">
+                <!-- <i class="fa-solid fa-cart-shopping position-relative">
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">+99 </span>
-                </i>
+                </i> -->
                 <a class="text-reset me-3" href="shoppingCart.php" style="text-decoration: none;">
                     <span class="fa-layers fa-fw">
                     <i class="fa-solid fa-cart-shopping"></i>

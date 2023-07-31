@@ -29,7 +29,7 @@ endif;
 ?>
 
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="dark" class="h-100">
 <head>
 	<title>Login</title>
 	<meta charset="utf-8" />
@@ -57,11 +57,11 @@ endif;
       }
     </style>
 </head>
-<body class="text-center">
+<body class="text-center d-flex flex-column h-100">
 	<?php
 		require 'themeToggle.php';
 	?>
-	<main class="form-signin">
+	<main class="form-signin flex-shrink-0">
 		<?php include('alert.php'); ?>
 
 		<form action="login.php" method="POST">

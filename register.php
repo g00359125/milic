@@ -83,7 +83,7 @@ if ($message == "Successfully created new user") {
 ?>
 
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="dark" class="h-100">
 
 <head>
 	<title>Register</title>
@@ -97,12 +97,12 @@ if ($message == "Successfully created new user") {
 	<script type="text/javascript" src="js/jquery.shop.js"></script>
 	<script type="text/javascript" src="js/color-modes.js"></script>
 </head>
-<body id="site">
+<body id="site" class="d-flex flex-column h-100">
 <?php
 		require 'themeToggle.php';
 ?>
 <!-- Section: Design Block -->
-<section class="text-center text-lg-start">
+<main class="flex-shrink-0 text-center text-lg-start">
 	<style>
 		.cascading-right {
 			margin-right: -50px;
@@ -221,34 +221,33 @@ if ($message == "Successfully created new user") {
 		</div>
 	</div>
   <!-- Jumbotron -->
-</section>
-<!-- Section: Design Block -->
+</main>
 	
-	<!-- Optional JavaScript -->
-	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-	<script src="https://kit.fontawesome.com/a6efd8a22c.js" crossorigin="anonymous"></script>
-	<script>
-		// Example starter JavaScript for disabling form submissions if there are invalid fields
-		(function () {
-		'use strict'
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/a6efd8a22c.js" crossorigin="anonymous"></script>
+<script>
+	// Example starter JavaScript for disabling form submissions if there are invalid fields
+	(function () {
+	'use strict'
 
-		// Fetch all the forms we want to apply custom Bootstrap validation styles to
-		var forms = document.querySelectorAll('.needs-validation')
+	// Fetch all the forms we want to apply custom Bootstrap validation styles to
+	var forms = document.querySelectorAll('.needs-validation')
 
-		// Loop over them and prevent submission
-		Array.prototype.slice.call(forms)
-			.forEach(function (form) {
-			form.addEventListener('submit', function (event) {
-				if (!form.checkValidity()) {
-				event.preventDefault()
-				event.stopPropagation()
-				}
+	// Loop over them and prevent submission
+	Array.prototype.slice.call(forms)
+		.forEach(function (form) {
+		form.addEventListener('submit', function (event) {
+			if (!form.checkValidity()) {
+			event.preventDefault()
+			event.stopPropagation()
+			}
 
-				form.classList.add('was-validated')
-			}, false)
-			})
-		})()
-	</script>
+			form.classList.add('was-validated')
+		}, false)
+		})
+	})()
+</script>
 </body>
 </html>

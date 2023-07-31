@@ -2,7 +2,7 @@
 	$page="Shop";
 ?>
 <!doctype html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="dark" class="h-100">
 <head>
 	<title>Products</title>
 	<meta charset="utf-8" />
@@ -10,19 +10,21 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Bootstrap CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-	<link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
+	<link href="css/style.css" rel="stylesheet" media="screen" type="text/css" />
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery.shop.js"></script>
 	<script type="text/javascript" src="js/color-modes.js"></script>
 </head>
-<body id="site">
+<body id="site" class="d-flex flex-column h-100">
 	<?php
 		require 'header.php';
 	?>
-	<main>
+	<main class="flex-shrink-0">
 		<div class="container">
 			<h1 class="display-3">Shop</h1>
-
+		</div>
+		<div class="container mb-4">
+			
 			<?php include('alert.php'); ?>
 
 			<div class="row row-cols-3 row-cols-md-3 g-4">
@@ -68,7 +70,7 @@
 											name="qty-<?=$row['product_id'];?>" 
 											id="qty-<?=$row['product_id'];?>" 
 											min="0" max="<?=$row['qty'];?>" 
-											class="qty form-control form-control-sm text-center <?=$row['qty'] == 0 ? 'disabled' : 'enabled';?>" 
+											class="qty form-control form-control-sm text-center fs-5 <?=$row['qty'] == 0 ? 'disabled' : 'enabled';?>" 
 											value="<?=$row['qty'] == 0 ? 0 : 1;?>" />
 									</div>
 									<!-- <div class="col-sm-1">
@@ -81,8 +83,6 @@
 										<input type="submit" value="Add to cart" class="btn btn-secondary form-control form-control-sm <?=$row['qty'] == 0 ? 'disabled' : 'enabled';?>" />
 									</div>
 								</form>
-								<p></p>
-								
 							</div>
 						</div>
 						<div class="card-footer text-center">

@@ -2,7 +2,7 @@
 	$page = 'About';
 ?>
 <!doctype html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="dark" class="h-100">
 <head>
 	<title>About</title>
 	<meta charset="utf-8" />
@@ -15,16 +15,21 @@
 	<script type="text/javascript" src="js/jquery.shop.js"></script>
     <script type="text/javascript" src="js/color-modes.js"></script>
 </head>
-<body id="site">
+<body id="site" class="d-flex flex-column h-100">
     
     <?php
         require 'header.php';
     ?>
 
-    <main class="vh-auto">
+    <main class="flex-shrink-0">
         <div class="container">
             <h1 class="display-3">About us</h1>
         </div>
+        <section>
+            <div class="container">
+                <p class="display-5">Here come some text about company.</p>
+            </div>
+        </section>
     </main>
 
     <?php

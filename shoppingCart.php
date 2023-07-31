@@ -3,7 +3,7 @@
 
 ?>
 <!doctype html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="dark" class="h-100">
 	<head>
 		<title>Milic Rakija</title>
 		<meta charset="utf-8" />
@@ -17,7 +17,7 @@
 		<script type="text/javascript" src="js/color-modes.js"></script>
 		<script src="https://kit.fontawesome.com/a6efd8a22c.js" crossorigin="anonymous"></script>
 	</head>
-	<body id="site">
+	<body id="site" class="d-flex flex-column h-100">
 		<?php
 			require 'header.php'; // <= Session started here
 
@@ -53,14 +53,14 @@
 				}
 			} 
 		?>
-		<main>
+		<main class="flex-shrink-0">
         	<div class="container">
             	<h1 class="display-3"><?php echo $page; ?></h1>
 				<?php require 'alert.php'; ?>
         	</div>
 			<form id="shopping-cart" action="shoppingCart.php" method="get">
-			<section class="h-100 h-custom">
-				<div class="container py-5 h-100">
+			<!-- <section class="h-100 h-custom"> -->
+				<div class="container py-2 h-100">
 					<div class="row d-flex justify-content-center align-items-center h-100">
 						<div class="col-12">
 							<div class="card card-registration card-registration-2" style="border-radius: 15px;">
@@ -132,7 +132,7 @@
 						</div>
 					</div>
 				</div>
-			</section>
+			<!-- </section> -->
 		</main>
 		<?php
 			require 'footer.php';
@@ -140,6 +140,5 @@
 		<!-- Optional JavaScript -->
 		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-		<script>$(document).ready(function(){ $("h1").addClass("animated bounce"); });</script>
 	</body>
 </html>	

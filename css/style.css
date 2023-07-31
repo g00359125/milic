@@ -387,6 +387,10 @@ body#checkout-page #site-info {
   }
   */
 
+  body::-webkit-scrollbar{
+	display: none;
+  }
+
   .navbar a:hover {
 	transform: scale(1.1);
   }

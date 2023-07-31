@@ -3,7 +3,7 @@
 ?>
 
 <!doctype html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="dark" class="h-100">
 <head>
 	<title>Milic Rakija</title>
 	<meta charset="utf-8" />
@@ -16,7 +16,7 @@
 	<script type="text/javascript" src="js/jquery.shop.js"></script>
 	<script type="text/javascript" src="js/color-modes.js"></script>
 </head>
-<body id="site">
+<body id="site" class="d-flex flex-column h-100">
 	<?php
 		require 'header.php';
 	?>
@@ -24,7 +24,7 @@
 	
 	
 	<!-- Main -->
-	<main>
+	<main class="flex-shrink-0">
 		<div class="container">
 			<div class="px-4 py-1 my-5 text-center">
 				<!-- <img class="d-block mx-auto mb-4 w-100" src="images/lLogoGold.png" alt="">
