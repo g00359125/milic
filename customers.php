@@ -24,6 +24,13 @@
 
     <main class="flex-shrink-0">
         <div class="container">
+            <?php
+                if( !isset($_SESSION['user_id'])){
+                    echo '<h1 class="display-3">Forbidden Access. Please login.</h1>';
+                } else if (!$user['isAdmin']) {
+                    echo '<h1 class="display-3">Forbidden Access. No Admin Rights.</h1>';
+                } else { 
+            ?>
             <h1 class="display-3"><?=$page?></h1>
         </div>
         <div class="container mb-4">
@@ -47,19 +54,28 @@
                                         <th>DOB</th>
                                         <th>Address</th>
                                         <th>Mobile</th>
-                                        <th>Action(s)</th>
+                                        <th># Orders</th>
+                                        <th>Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php 
-                                        $query = "SELECT `id`, `email`, CONCAT(name, ' ', surname) AS `customer`, 
-                                            `dob`, `address`, `mobile`, `isAdmin` 
-                                            FROM `users`;";
-                                        $counter = 0;
-                                        
+                                        $query = 
+                                        "SELECT 
+                                            `users`.`id`,
+                                            `users`.`email`,
+                                            CONCAT(`users`.`name`, ' ', `users`.`surname`) AS `customer`,
+                                            `users`.`dob`,
+                                            `users`.`address`,
+                                            `users`.`mobile`,
+                                            `users`.`isAdmin`,
+                                            COUNT(orders.id) as `num_orders`,
+                                            SUM(orders.order_total) as `total_orders`
+                                        FROM
+                                            `users` left join `orders` on `users`.`id` = `orders`.`user_id`
+                                        GROUP by users.id;";
                                         $stmt = $conn->query($query);
                                         while ($row = $stmt->fetch()){
-                                            $counter++;
                                             ?>
                                                 <tr>
                                                     <td><?= $row['id']; ?></td>
@@ -68,19 +84,14 @@
                                                     <td><?= $row['dob']; ?></td>
                                                     <td><?= $row['address']; ?></td>
                                                     <td><?= $row['mobile']; ?></td>
-                                                    <td>
-                                                        <a href="orderHistory.php?id=<?= $row['id']; ?>" class="btn btn-primary btn-sm">View Orders</a>
-                                                        <!-- <a href="inventory-edit.php?id=<?= $row['id']; ?>" class="btn btn-success btn-sm">Edit</a> -->
-                                                        <!-- <form action="code.php" method="POST" class="d-inline">
-                                                            <button type="submit" name="delete_inventory" value="<?=$row['id'];?>" class="btn btn-danger btn-sm">Delete</button>
-                                                        </form> -->
-                                                    </td>
+                                                    <td><a href="orderHistory.php?id=<?= $row['id']; ?>" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+                                                        <?= $row['num_orders']?>
+                                                    </a></td>
+                                                    <td><a href="orderHistory.php?id=<?= $row['id']; ?>" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+                                                        <?= $row['total_orders']?>
+                                                    </a></td>
                                                 </tr>
                                                 <?php
-                                        }
-
-                                        if($counter == 0) {   
-                                            echo "<h5> No Record Found </h5>";
                                         }
                                     ?>
                                 </tbody>
@@ -89,6 +100,7 @@
                     </div>
                 </div>
             </div>
+            <?php } ?>
         </div>
     </main>
 

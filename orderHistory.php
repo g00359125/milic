@@ -24,7 +24,18 @@
 
     <main class="flex-shrink-0">
         <div class="container">
-            <h1 class="display-3"><?=$page?></h1>
+            <?php
+                if( !isset($_SESSION['user_id']) ){
+                    echo '<h1 class="display-3">Forbidden Access. Please login.</h1>';
+                } else {
+            ?>
+            <h1 class="display-3"><?=$page?>
+            <?php
+                if($user['isAdmin'] && isset($_GET['id'])) {
+                    echo ' for user: '.$_GET['id'];
+                } 
+            ?>
+            </h1>
             <div class="container mt-4">
 
                 <?php include('alert.php'); ?>
@@ -42,7 +53,7 @@
                                 <table id="ordersTable" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
+                                            <th>Order ID</th>
                                             <th>Customer</th>
                                             <th>Order Time</th>
                                             <th>Total</th>
@@ -60,13 +71,14 @@
                                                 WHERE user_id = :userId;";
                                             // $query = "SELECT * FROM orders;";
                                             $records = $conn->prepare($query);
-	                                        $records->bindParam(':userId', $_SESSION['user_id']);
+                                            if($user['isAdmin'] && isset($_GET['id'])) {
+                                                $records->bindParam(':userId', $_GET['id']);
+                                            } else {
+                                                $records->bindParam(':userId', $_SESSION['user_id']);
+                                            }
 	                                        $records->execute();
-                                            
-                                            $counter = 0;
 
                                             while ($row = $records->fetch()){
-                                                $counter++;
                                                 ?>
                                                     <tr>
                                                         <td><?= $row['id']; ?></td>
@@ -76,7 +88,7 @@
                                                         <td><?= $row['status']; ?></td>
                                                         <td><?= $row['delivery_time']; ?></td>
                                                         <td>
-                                                            <a href="order-view.php?id=<?= $row['id']; ?>" class="btn btn-info btn-sm">View</a>
+                                                            <a href="order-view.php?id=<?= $row['id']; ?>" class="btn btn-secondary btn-sm">View</a>
                                                             <!-- <a href="inventory-edit.php?id=<?= $row['id']; ?>" class="btn btn-success btn-sm">Edit</a> -->
                                                             <!-- <form action="code.php" method="POST" class="d-inline">
                                                                 <button type="submit" name="delete_inventory" value="<?=$row['id'];?>" class="btn btn-danger btn-sm">Delete</button>
@@ -84,10 +96,6 @@
                                                         </td>
                                                     </tr>
                                                     <?php
-                                            }
-
-                                            if($counter == 0) {   
-                                                echo "<h5> No Record Found </h5>";
                                             }
                                         ?>
                                     </tbody>
@@ -97,6 +105,7 @@
                     </div>
                 </div>
             </div>
+            <?php } ?>
         </div>
     </main>
 

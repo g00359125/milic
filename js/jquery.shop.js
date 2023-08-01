@@ -275,7 +275,7 @@
 									   name="qty-${item['id']}" 
 									   value="${item['qty']}" 
 									   type="number"
-									   class="qty form-control form-control-sm" />
+									   class="qty form-control form-control-sm fs-5" />
 
 								<button class="btn btn-link px-2"
 									onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
@@ -287,7 +287,7 @@
 									   name="price_${item['currency']}-${item['id']}" 
 									   value="${price} ${item['currency']}" 
 									   type="text"
-									   class="mb-0 form-control form-control-sm" readonly/>
+									   class="mb-0 form-control form-control-sm fs-5" readonly/>
 							</div>
 							<div class="col-md-1 col-lg-1 col-xl-1 text-end pdelete">
 								<a href='' data-id='${item['id']}' class="text-muted"><i class="fas fa-times"></i></a>
@@ -371,6 +371,21 @@
 					self._emptyCart();
 				});
 			}
+			
+			// on logout button click delete cart
+			$( ".logout" ).on( "click", function( e ) {
+				console.log("Bye!");
+				// Remember the link href
+				var href = this.href;
+				// Don't follow the link
+				e.preventDefault();
+
+				// Delete cart
+				self._emptyCart();
+				
+				// go to the link
+				window.location = href;
+			});
 		},
 		
 		// Updates the cart

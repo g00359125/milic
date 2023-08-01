@@ -22,7 +22,9 @@
     <main class="flex-shrink-0">
         <div class="container">
             <?php
-                if( isset($_SESSION['user_id']) ){
+                if( !isset($_SESSION['user_id']) ){
+                    echo '<h1 class="display-3">Forbidden Access. Please login.</h1>';
+                } else {
             ?>
             <h1 class="display-3">Profile</h1>
         </div>
@@ -31,15 +33,14 @@
             <?php include('alert.php'); ?>
 
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-8 offset-md-2">
                     <div class="card">
                         <!-- <div class="card-header">
                                 <a href="customer-create.php" class="btn btn-primary float-end">Add Customer</a>
                         </div> -->
                         <div class="card-body">
                         <?php 
-                            $query = "SELECT `id`, `email`, `name`, `surname`, `dob`, `address`, `mobile`, `password` 
-                                FROM `users` WHERE `id` = ".$_SESSION['user_id'].";";
+                            $query = "SELECT * FROM `users` WHERE `id` = ".$_SESSION['user_id'].";";
                             
                             $counter = 0;
                             
@@ -50,78 +51,91 @@
                                 <!-- 2 column grid layout with text inputs for the first and last names -->
                                 <div class="row">
                                     <div class="col-md-6 mb-4">
-                                    <div class="form-floating">
-                                        <input type="text" id="name" name="name" class="form-control" placeholder="Name" value="<?= $row['name'] ?>" />
-                                        <label for="name">First name</label>
-                                    </div>
+                                        <div class="form-floating">
+                                            <input type="text" id="name" name="name" class="form-control" placeholder="Name" value="<?= $row['name'] ?>" />
+                                            <label for="name">First name</label>
+                                        </div>
                                     </div>
                                     <div class="col-md-6 mb-4">
-                                    <div class="form-floating">
-                                        <input type="text" id="surname" name="surname" class="form-control" placeholder="Surname" value="<?= $row['surname'] ?>"/>
-                                        <label class="form-label" for="surname">Last name</label>
-                                    </div>
+                                        <div class="form-floating">
+                                            <input type="text" id="surname" name="surname" class="form-control" placeholder="Surname" value="<?= $row['surname'] ?>"/>
+                                            <label class="form-label" for="surname">Last name</label>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <!-- Email input -->
-                                <div class="form-floating mb-4">
-                                    <input type="email" id="email" name="email" class="form-control" placeholder="name@email.com" autocomplete="off" readonly 
-                    onfocus="this.removeAttribute('readonly');" value="<?= $row['email'] ?>" />
-                                    <label class="form-label" for="email">Email address</label>
+                                <div class="row">
+                                    <div class="col-md-12 mb-4">
+                                        <div class="form-floating mb-4">
+                                            <input type="email" id="email" name="email" class="form-control" placeholder="name@email.com" autocomplete="off" readonly 
+                                                onfocus="this.removeAttribute('readonly');" value="<?= $row['email'] ?>" />
+                                            <label class="form-label" for="email">Email address</label>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- Password input -->
-                                <div class="form-floating mb-4">
-                                    <input type="password" id="password" name="password" class="form-control" placeholder="**********" autocomplete="off" readonly 
-                    onfocus="this.removeAttribute('readonly');" value="<?= $row['password'] ?>" />
-                                    <label class="form-label" for="password">Password</label>
+                                <div class="row">
+                                    <div class="col-md-12 mb-4">
+                                        <div class="form-floating mb-4">
+                                            <input type="password" id="password" name="password" class="form-control" placeholder="**********" autocomplete="off" readonly 
+                                                onfocus="this.removeAttribute('readonly');" value="<?= $row['password'] ?>" />
+                                            <label class="form-label" for="password">Password</label>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- Confirm Password input -->
-                                <div class="form-floating mb-4">
-                                    <input type="password" id="password_confirm" name="password_confirm" class="form-control" placeholder="**********" value="<?= $row['password'] ?>"/>
-                                    <label class="form-label" for="password_confirm">Confirm Password</label>
-                                </div>
-                                
-                                <!-- Address input -->
-                                    <div class="form-floating mb-4">
-                                    <input type="text" id="address" name="address" class="form-control" placeholder="Street No, Post Code City, Country" value="<?= $row['address'] ?>"/>
-                                    <label class="form-label" for="address">Address</label>
+                                <div class="row">
+                                    <div class="col-md-12 mb-4"> 
+                                        <div class="form-floating mb-4">
+                                            <input type="password" id="password_confirm" name="password_confirm" class="form-control" placeholder="**********" value="<?= $row['password'] ?>"/>
+                                            <label class="form-label" for="password_confirm">Confirm Password</label>
+                                        </div>
+                                    </div>
                                 </div>
 
+                                <!-- Address input -->
+                                <div class="row">
+                                    <div class="col-md-12 mb-4">
+                                        <div class="form-floating mb-4">
+                                            <input type="text" id="address" name="address" class="form-control" placeholder="Street No, Post Code City, Country" value="<?= $row['address'] ?>"/>
+                                            <label class="form-label" for="address">Address</label>
+                                        </div>
+                                    </div>
+                                </div>
                                 
                                 <div class="row">
                                     <!-- DOB input -->
                                     <div class="col-md-6 mb-4">
-                                    <div class="form-floating">
-                                        <input type="text" id="dob" name="dob" class="form-control" placeholder="YYYY-MM-DD" value="<?= $row['dob'] ?>"/>
-                                        <label class="form-label" for="dob">DOB (YYYY-MM-DD)</label>
-                                    </div>
+                                        <div class="form-floating">
+                                            <input type="text" id="dob" name="dob" class="form-control" placeholder="YYYY-MM-DD" value="<?= $row['dob'] ?>"/>
+                                            <label class="form-label" for="dob">DOB (YYYY-MM-DD)</label>
+                                        </div>
                                     </div>
                                     <!-- Mobile input -->
                                     <div class="col-md-6 mb-4">
-                                    <div class="form-floating">
-                                        <input type="text" id="mobile" name="mobile" class="form-control" placeholder="(0XX) XXX XXXX" value="<?= $row['mobile'] ?>"/>
-                                        <label class="form-label" for="mobile">Mobile (0XX) XXX XXXX</label>
-                                    </div>
+                                        <div class="form-floating">
+                                            <input type="text" id="mobile" name="mobile" class="form-control" placeholder="(0XX) XXX XXXX" value="<?= $row['mobile'] ?>"/>
+                                            <label class="form-label" for="mobile">Mobile (0XX) XXX XXXX</label>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <!-- Submit button -->
-                                <button type="submit" class="btn btn-secondary btn-block mb-4">
-                                    Update
-                                </button>
+                                
+                                <div class="text-center">
+                                    <!-- Submit button -->
+                                    <button type="submit" class="btn btn-secondary btn-block mb-4">
+                                        Update
+                                    </button>
+                                </div>
                                 
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <?php 
-                } else {
-                    echo '<h1 class="display-3">No Access</h1>';
-                }
-            ?>
+            <?php } ?>
         </div>    
     </main>
 

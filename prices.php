@@ -24,6 +24,13 @@
 
     <main class="flex-shrink-0">
         <div class="container">
+            <?php
+                if( !isset($_SESSION['user_id'])){
+                    echo '<h1 class="display-3">Forbidden Access. Please login.</h1>';
+                } else if (!$user['isAdmin']) {
+                    echo '<h1 class="display-3">Forbidden Access. No Admin Rights.</h1>';
+                } else { 
+            ?>
             <h1 class="display-3">Prices</h1>
         </div>
         <div class="container mb-4">
@@ -35,7 +42,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h4>
-                                <a href="prices-create.php" class="btn btn-secondary float-end">Add Price</a>
+                                <a href="prices-create.php" class="btn btn-primary float-end">Add Price</a>
                             </h4>
                         </div>
                         <div class="card-body">
@@ -55,7 +62,7 @@
                                 </thead>
                                 <tbody>
                                     <?php 
-                                        $query = "SELECT * FROM `prices_view`";
+                                        $query = "SELECT * FROM prices_view_en;";
                                         // $records = $conn->prepare($query);
                                         //$records->bindParam(':id', $_SESSION['user_id']);
                                         // $records->execute();
@@ -72,11 +79,11 @@
                                                     <td><?= $row['name']; ?></td>
                                                     <td><?= $row['volume']; ?></td>
                                                     <td><?= $row['year']; ?></td>
-                                                    <td><?= $row['price_eur']; ?></td>
+                                                    <td><?= $row['price']; ?></td>
                                                     <td><?= $row['price_created']; ?></td>
                                                     <td><?= $row['user']; ?></td>
                                                     <td>
-                                                        <a href="prices-view.php?id=<?= $row['product_id']; ?>" class="btn btn-info btn-sm">View</a>
+                                                        <a href="prices-view.php?id=<?= $row['product_id']; ?>" class="btn btn-primary btn-sm">View</a>
                                                         <!-- <a href="inventory-edit.php?id=<?= $row['product_id']; ?>" class="btn btn-success btn-sm">Edit</a> -->
                                                         <!-- <form action="code.php" method="POST" class="d-inline">
                                                             <button type="submit" name="delete_inventory" value="<?=$row['product_id'];?>" class="btn btn-danger btn-sm">Delete</button>
@@ -98,6 +105,7 @@
                     </div>
                 </div>
             </div>
+            <?php } ?>
         </div>
     </main>
 

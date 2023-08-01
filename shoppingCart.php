@@ -55,6 +55,11 @@
 		?>
 		<main class="flex-shrink-0">
         	<div class="container">
+				<?php
+					if( !isset($_SESSION['user_id']) ){
+						echo '<h1 class="display-3">Forbidden Access. Please login.</h1>';
+					} else {
+				?>
             	<h1 class="display-3"><?php echo $page; ?></h1>
 				<?php require 'alert.php'; ?>
         	</div>
@@ -97,7 +102,7 @@
 									   				name="stotal" 
 									   				value="" 
 									   				type="text"
-									   				class="h5 mb-0 form-control form-control-sm" readonly/>
+									   				class="h5 mb-0 form-control form-control-sm fs-5" readonly/>
 												</div>
 							
 												<h5 class="text-uppercase mb-3">Give code</h5>
@@ -118,7 +123,7 @@
 									   				name="totalCharges" 
 									   				value="" 
 									   				type="text"
-									   				class="h5 mb-0 form-control form-control-sm" readonly/>
+									   				class="h5 mb-0 form-control form-control-sm fs-5" readonly/>
 												</div>
 
 												<input type="submit" name="create" id="create-order" class="btn btn-dark btn-block btn-lg"
@@ -131,14 +136,14 @@
 							</div>
 						</div>
 					</div>
+					<?php } ?>
 				</div>
 			<!-- </section> -->
 		</main>
 		<?php
 			require 'footer.php';
 		?>
-		<!-- Optional JavaScript -->
-		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+		<script src="https://kit.fontawesome.com/a6efd8a22c.js" crossorigin="anonymous"></script>
 	</body>
 </html>	

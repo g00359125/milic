@@ -25,6 +25,15 @@ You have 3 options.
 1. Clone this project and run it locally
 2. Clone this project to a Web Server and run it remotely
 3. Fork this project and access it via your GitHub Pages
+## Database
+
+### Database schema
+
+[milicdb schema](./milicdb.sql)
+
+### Relationship view
+
+![milicdb design](/images/milicdb-design.png "milicdb design")
 
 ## References
 1. [PHP CRUD using Bootstrap 5 | CRUD operation using PHP Bootstrap 5 & MySQL](https://www.fundaofwebit.com/post/php-crud-using-bootstrap-5-example)

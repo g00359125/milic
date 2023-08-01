@@ -24,6 +24,13 @@
 
     <main class="flex-shrink-0">
         <div class="container">
+            <?php
+                if( !isset($_SESSION['user_id'])){
+                    echo '<h1 class="display-3">Forbidden Access. Please login.</h1>';
+                } else if (!$user['isAdmin']) {
+                    echo '<h1 class="display-3">Forbidden Access. No Admin Rights.</h1>';
+                } else { 
+            ?>
             <h1 class="display-3"><?=$page?></h1>
         </div>
         <div class="container mb-4">
@@ -75,7 +82,7 @@
                                                     <td><?= $row['status']; ?></td>
                                                     <td><?= $row['delivery_time']; ?></td>
                                                     <td>
-                                                        <a href="order-view.php?id=<?= $row['id']; ?>" class="btn btn-info btn-sm">View</a>
+                                                        <a href="order-view.php?id=<?= $row['id']; ?>" class="btn btn-primary btn-sm">View</a>
                                                         <!-- <a href="inventory-edit.php?id=<?= $row['id']; ?>" class="btn btn-success btn-sm">Edit</a> -->
                                                         <!-- <form action="code.php" method="POST" class="d-inline">
                                                             <button type="submit" name="delete_inventory" value="<?=$row['id'];?>" class="btn btn-danger btn-sm">Delete</button>
@@ -95,6 +102,7 @@
                     </div>
                 </div>
             </div>
+            <?php } ?>
         </div>
     </main>
 
