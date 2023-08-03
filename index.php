@@ -1,5 +1,7 @@
 <?php
 	$page = 'Home';
+	session_start();
+	require 'database.php';
 ?>
 
 <!doctype html>
@@ -23,15 +25,14 @@
 
 	<!-- Main -->
 	<main class="flex-shrink-0">
-		<div class="container">
+		<div class="container mb-3">
 			<div class="px-4 py-1 my-1 text-center">
 				<img class="d-block mx-auto mb-4 w-100" src="images/lLogoGold.png" alt="">
 				<h1 class="display-5 fw-bold text-body-emphasis">Milic Rakija <br/> <span class="tagline">Finest rakija this side of the Danube!</h1>
 				<div class="col-lg-6 mx-auto">
-					<p class="lead mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
+					<p class="lead mb-4">We stand by our claim. Try for yourself and see!</p>
 					<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-						<!-- <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Primary button</button> -->
-						<button type="button" class="btn btn-outline-secondary btn-lg px-4">Oreder Now!</button>
+						<a href="shop.php" class="btn btn-outline-secondary btn-lg px-4">Order Now!</a>
 					</div>
 				</div>
 			</div>
@@ -41,40 +42,45 @@
 			<div class="list-group">
 			<hr class="featurette-divider">
 
-			<div id="featurette-1" class="row featurette text-whitesmoke ">
+			<div id="featurette-1" class="row featurette text-whitesmoke parallax rounded-3 justify-content-between" style="border: 2px solid black;">
 				<div class="col-md-7">
-					<h2 class="featurette-heading">First featurette heading. <span class="text-muted">It’ll blow your mind.</span></h2>
-					<p class="lead">Some great placeholder content for the first featurette here. Imagine some exciting prose here.</p>
+					<div class="container card mt-3" style = "background: hsla(0, 0%, 100%, 0.55);backdrop-filter: blur(10px)">
+						<h3 class="featurette-heading ">Try our best-seller Kajsija!<span class="text-muted"></span></h3>
+						<h3 class="featurette-heading ">Made from our locally grown apricots.</h3>
+						<p class="lead">The perfect gift for a loved one.</p>
+					</div>
 				</div>
-				<div class="col-md-5">
-					<!-- <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"></rect><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg> -->
-					<img src="images/kajsija.jpg" width="500">
+				<div class="col-md-3 mt-3">
+					<img src="images/kajsija.jpg" width="300" class="rounded-3 card" style ="background: hsla(0, 0%, 100%, 0.55);backdrop-filter: blur(10px);">
 				</div>
 			</div>
 
 			<hr class="featurette-divider">
 
-			<div id="featurette-2" class="row featurette text-whitesmoke ">
+			<div id="featurette-2" class="row featurette text-whitesmoke parallax2 rounded-3">
 				<div class="col-md-7 order-md-2">
-					<h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
-					<p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this layout would work with some actual real-world content in place.</p>
+					<div class="container card mt-3" style = "background: hsla(0, 0%, 100%, 0.55);backdrop-filter: blur(10px)">
+						<h2 class=" featurette-heading"> Our Location<span class="text-muted"></span></h2>
+						<p class="lead">We are situated in a small town in Serbia called 'Vrsac'. Come visit us and soak in the beautiful scenery around our town.</p>
+					</div>
 				</div>
-				<div class="col-md-5 order-md-1">
-					<!-- <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"></rect><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg> -->
-					<img src="images/orah.jpg" width="500">
+				<div class="col-md-5 order-md-1 mt-3">
+					<img src="images/orah.jpg" width="300" class="rounded-3">
 				</div>
 			</div>
 
 			<hr class="featurette-divider">
 
-			<div id="featurette-3" class="row featurette text-whitesmoke ">
+			<div id="featurette-3" class="row featurette text-whitesmoke parallax3 rounded-3 justify-content-between">
 				<div class="col-md-7">
-					<h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-					<p class="lead">And yes, this is the last block of representative placeholder content. Again, not really intended to be actually read, simply here to give you a better view of what this would look like with some actual content. Your content.</p>
+					<div class="container card mt-3" style = "background: hsla(0, 0%, 100%, 0.55);backdrop-filter: blur(10px)">
+						<h2 class="featurette-heading ">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
+						<p class="lead">And yes, this is the last block of representative placeholder content. Again, not really intended to be actually read, simply here to give you a better view of what this would look like with some actual content. Your content.</p>
+					</div>
 				</div>
-				<div class="col-md-5">
-					<!-- <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"></rect><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg> -->
-					<img src="images/dunja.jpg" width="500">
+
+				<div class="col-md-3 mt-3 align-items-start">
+					<img src="images/dunja.jpg" width="300" class="rounded-3">
 				</div>
 			</div>
 			</div>
@@ -87,18 +93,15 @@
 				Your browser does not support html video
 			</video>
 		</div>
-		<!-- Container element -->
 		
-		<!-- <div class="parallax2"></div>
-		<div style="height:10px;background-color:black;font-size:36px"></div>
-		<div class="parallax3"></div> -->
+		<!-- <div class="parallax2"></div> -->
+		<!-- <div style="height:10px;background-color:black;font-size:36px"></div> -->
+		<!-- <div class="parallax3"></div> -->
 	</main>
 	<!-- Footer -->
 	<?php
 		require 'footer.php';
 	?>
-	<!-- Optional JavaScript -->
-	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 	<script src="https://kit.fontawesome.com/a6efd8a22c.js" crossorigin="anonymous"></script>
 	<script>

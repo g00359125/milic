@@ -1,5 +1,5 @@
 <?php
-    if(isset($_SESSION['alert'])) :
+    if(isset($_SESSION['alert']) && isset($_SESSION['alert_style'])) :
 ?>
 
     <div class="alert alert-<?=$_SESSION['alert_style']?> alert-dismissible fade show" role="alert">
@@ -9,5 +9,6 @@
 
 <?php 
     unset($_SESSION['alert']);
+    unset($_SESSION['alert_style']);
     endif;
 ?>

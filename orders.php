@@ -1,5 +1,27 @@
 <?php
     $page="Orders";
+	session_start();
+	require 'database.php';
+
+    // check if edit post is performed
+    if( isset($_POST['action']) && $_POST['action'] == 'Update' && isset($_POST['id'])){
+        $sql = "UPDATE `orders` SET `status`= :status,`delivery_time`= :deliveryTime WHERE `id`= :orderId;";
+        $stmn = $conn->prepare($sql);
+        $stmn->bindParam(':status', $_POST['status']);
+        $dt = isset($_POST['delivery_time']) && $_POST['delivery_time'] != '' ? $_POST['delivery_time'] : null;
+        if(($_POST['status'] == 'DELIVERED') && ($dt == null)) $dt = date('Y-m-d H:i:s');
+        $stmn->bindParam(':deliveryTime', $dt);
+        $stmn->bindParam(':orderId', $_POST['id']);
+        if ($stmn->execute()){
+            $_SESSION['alert'] = 'Successfully updated order #'.$_POST['id']."!";
+            $_SESSION['alert_style'] = 'info';
+        } else {
+            $_SESSION['alert'] = 'There is a problem updating order #'.$_POST['id']."!";
+            $_SESSION['alert_style'] = 'danger';
+        }
+        $show = 'hide';
+    } 
+
 ?>
 <!doctype html>
 <html lang="en" data-bs-theme="dark" class="h-100">
@@ -29,7 +51,7 @@
                     echo '<h1 class="display-3">Forbidden Access. Please login.</h1>';
                 } else if (!$user['isAdmin']) {
                     echo '<h1 class="display-3">Forbidden Access. No Admin Rights.</h1>';
-                } else { 
+                } else {
             ?>
             <h1 class="display-3"><?=$page?></h1>
         </div>
@@ -62,38 +84,22 @@
                                     <?php 
                                         $query = "SELECT orders.id, user_id, CONCAT(users.name, ' ', users.surname) AS customer, 
                                             order_time, order_total, status, delivery_time 
-                                            FROM `orders` JOIN users ON orders.user_id = users.id ORDER BY order_time DESC;";
-                                        // $query = "SELECT * FROM orders;";
-                                        // $records = $conn->prepare($query);
-                                        //$records->bindParam(':id', $_SESSION['user_id']);
-                                        // $records->execute();
-                                        // $results = $records->fetch(PDO::FETCH_ASSOC);
-                                        $counter = 0;
-                                        
+                                            FROM `orders` JOIN users ON orders.user_id = users.id ORDER BY order_time DESC;";                                        
                                         $stmt = $conn->query($query);
                                         while ($row = $stmt->fetch()){
-                                            $counter++;
-                                            ?>
-                                                <tr>
-                                                    <td><?= $row['id']; ?></td>
-                                                    <td><?= $row['customer']; ?></td>
-                                                    <td><?= $row['order_time']; ?></td>
-                                                    <td><?= $row['order_total']; ?></td>
-                                                    <td><?= $row['status']; ?></td>
-                                                    <td><?= $row['delivery_time']; ?></td>
-                                                    <td>
-                                                        <a href="order-view.php?id=<?= $row['id']; ?>" class="btn btn-primary btn-sm">View</a>
-                                                        <!-- <a href="inventory-edit.php?id=<?= $row['id']; ?>" class="btn btn-success btn-sm">Edit</a> -->
-                                                        <!-- <form action="code.php" method="POST" class="d-inline">
-                                                            <button type="submit" name="delete_inventory" value="<?=$row['id'];?>" class="btn btn-danger btn-sm">Delete</button>
-                                                        </form> -->
-                                                    </td>
-                                                </tr>
-                                                <?php
-                                        }
-
-                                        if($counter == 0) {   
-                                            echo "<h5> No Record Found </h5>";
+                                    ?>
+                                    <tr>
+                                        <td><?= $row['id']; ?></td>
+                                        <td><?= $row['customer']; ?></td>
+                                        <td><?= $row['order_time']; ?></td>
+                                        <td><?= $row['order_total']; ?></td>
+                                        <td><?= $row['status']; ?></td>
+                                        <td><?= $row['delivery_time']; ?></td>
+                                        <td>
+                                            <a href="orders.php?action=edit&id=<?= $row['id']; ?>" class="btn btn-primary btn-sm">Edit</a>
+                                        </td>
+                                    </tr>
+                                    <?php
                                         }
                                     ?>
                                 </tbody>
@@ -102,10 +108,173 @@
                     </div>
                 </div>
             </div>
-            <?php } ?>
+            <?php 
+                } ?>
         </div>
     </main>
+    
 
+    <?php
+        // check if edit is requested and get order
+        $show = '';
+        if( isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])){
+            $sql = "SELECT *	 
+                    FROM orders 
+                    JOIN users ON orders.user_id = users.id 
+                    WHERE orders.id = :orderId;";
+            $stmn = $conn->prepare($sql);
+            $stmn->bindParam(':orderId', $_GET['id']);
+            $stmn->execute();
+            $order = $stmn->fetch();
+            $show = 'show';
+
+        ?>
+    <!-- Edit Order Modal Start -->
+    <div class="modal fade <?= $show ?>" tabindex="-1" id="editOrderModal" data-bs-config={backdrop:true}>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form action="orders.php" method="post" id="edit-order-form" role="form" class="p-2" novalidate>
+                    <div class="modal-header">
+                        <h5 class="modal-title">Order #<?= $_GET['id'] ?></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!-- Customer input -->
+                                <div class="form-floating mb-4">
+                                    <input type="hidden" id="id" name="id" value="<?= $_GET['id'] ?>" />
+                                    <input type="text" id="customer" name="customer" class="form-control" placeholder="Customer name" value="<?= $order['name'] ?> <?= $order['surname'] ?>" required readonly />
+                                    <label class="form-label" for="customer">Customer</label>
+                                    <div class="invalid-feedback">Please provide customer name.</div>
+                                    <div class="valid-feedback">Looks good!</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <!-- Order Time input -->
+                                <div class="form-floating mb-4">
+                                    <input type="text" id="order_time" name="order_time" class="form-control" placeholder="Order time" value="<?= $order['order_time'] ?>" required readonly />
+                                    <label class="form-label" for="order_time">Order time</label>
+                                    <div class="invalid-feedback">Please provide time of order.</div>
+                                    <div class="valid-feedback">Looks good!</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!-- Total input -->
+                                <div class="form-floating mb-4">
+                                    <input type="text" id="total" name="total" class="form-control" placeholder="total" value="<?= $order['order_total'] ?>" required readonly />
+                                    <label class="form-label" for="total">Total</label>
+                                    <div class="invalid-feedback">Please provide total for order.</div>
+                                    <div class="valid-feedback">Looks good!</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <!-- Status input -->
+                                <div class="form-floating mb-4">
+                                    <select class="form-select" id="status" name="status">
+                                        <option value="CREATED"   <?= ($order['status'] == 'CREATED')   ? 'selected' : '' ?>>CREATED</option>
+                                        <option value="PROCESSED" <?= ($order['status'] == 'PROCESSED') ? 'selected' : '' ?>>PROCESSED</option>
+                                        <option value="DELIVERED" <?= ($order['status'] == 'DELIVERED') ? 'selected' : '' ?>>DELIVERED</option>
+                                        <option value="CANCELLED" <?= ($order['status'] == 'CANCELLED') ? 'selected' : '' ?>>CANCELLED</option>
+                                    </select>
+                                    <label class="form-label" for="status">Status</label>
+                                    <div class="invalid-feedback">Please provide order status.</div>
+                                    <div class="valid-feedback">Looks good!</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!-- Delivery Time input -->
+                                <div class="form-floating mb-4">
+                                    <input type="datetime-local" id="delivery_time" name="delivery_time" class="form-control" placeholder="Delivery time" value="<?= $order['delivery_time'] ?>" required readonly />
+                                    <label class="form-label" for="delivery_time">Delivery time</label>
+                                    <div class="invalid-feedback">Please provide time of order.</div>
+                                    <div class="valid-feedback">Looks good!</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <!-- Discount input -->
+                                <div class="form-floating mb-4">
+                                    <input type="text" id="discount" name="discount" class="form-control" placeholder="Discount" value="<?= $order['discount'] ?>" readonly />
+                                    <label class="form-label" for="discount">Discount (%)</label>
+                                    <div class="invalid-feedback">Please provide order discount.</div>
+                                    <div class="valid-feedback">Looks good!</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Order Details Table -->
+                            <div class="form-floating mb-4">
+                                <h5>Order Details</h5>
+                                <table id="orderDetailsTable" class="table">
+                                    <thead>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>ABV</th>
+                                        <th>Vol</th>
+                                        <th>Year</th>
+                                        <th>Price</th>
+                                        <th>Qty</th>
+                                    </thead>
+                                    <tbody>
+
+                        <?php
+                        // check if edit is requested and get order details
+                        if( isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])){
+                            $sql = "SELECT order_details.product_id,  
+                                           order_details.qty,
+                                           order_details.unit_price,
+                                           products.name_en,
+                                           products.abv,
+                                           products.volume,
+                                           products.year
+                                    FROM order_details 
+                                    JOIN products ON order_details.product_id = products.id 
+                                    WHERE order_details.order_id = :orderId;";
+                            $order_details = $conn->prepare($sql);
+                            $order_details->bindParam(':orderId', $_GET['id']);
+                            $order_details->execute();
+                            while ($row = $order_details->fetch()){
+                                echo '<tr>';
+                                echo '  <td>'.$row['product_id'].'</td>';
+                                echo '  <td>'.$row['name_en'].'</td>';
+                                echo '  <td>'.$row['abv'].'</td>';
+                                echo '  <td>'.$row['volume'].'</td>';
+                                echo '  <td>'.$row['year'].'</td>';
+                                echo '  <td>'.$row['unit_price'].'</td>';
+                                echo '  <td>'.$row['qty'].'</td>';
+                                echo '</tr>';
+                            }
+                        
+                        }
+                        ?>  
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                        <div class="mb-3">
+                            <input type="submit" name="action" value="Update" class="btn btn-secondary" id="edit-order" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Order Modal End -->
+    
+    <?php 
+            }
+            
+            
+    ?>                  
     <?php
         require 'footer.php';
     ?>
@@ -119,7 +288,16 @@
                 "pageLength": 25,
                 "order": [[0, 'desc']]
             });
+            
+            <?php 
+            if ($show == 'show') {
+                echo '(new bootstrap.Modal(document.getElementById("editOrderModal"))).show()';
+            }  
+            ?>
         });
+
+        
+
     </script>
 </body>
 </html>	

@@ -1,41 +1,56 @@
-# PPIT project by Mateja Cvetkovic
+PPIT project by Mateja Cvetkovic
+================================
 
-# A shopping cart using jQuery with sessionStorage
+# Introduction
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/e7e9abaa-bbe7-49dd-badd-ce47216dc219/deploy-status)](https://app.netlify.com/sites/shoppingcartexample/deploys)
 
-https://shoppingcartexample.netlify.com  
-https://danielcregg.github.io/shoppingcart/
+# Website Flow
 
-This shopping cart is built using jQuery and sessionStorage. 
+# Pages
 
-This project also includes PayPal payments.
+* Homepage
 
-This is a proof-of-concept and is not intended to replace any existing server-side techniques. 
+* Shop
 
-Bear in mind that there are a few things you need to change on the main `jquery.shop.js` file, namely:
+* Contact
 
-* The type of PayPal's cart.
-* Your business email address.
-* The URL of the PayPal's form.
-* The way shipping charges are calculated.
+* About
 
-## To run this project
-You have 3 options. 
-1. Clone this project and run it locally
-2. Clone this project to a Web Server and run it remotely
-3. Fork this project and access it via your GitHub Pages
-## Database
+* Login
 
-### Database schema
+* Register
+
+* User - Profile
+
+* User - Shoping Cart
+    
+    A shopping cart using jQuery with sessionStorage
+
+    This shopping cart is built using jQuery and sessionStorage. 
+
+* User - Order History
+
+* Admin - Customers
+
+* Admin - Prices
+
+* Admin - Inventory
+
+* Admin - Orders
+
+# Database
+
+## Database schema
 
 [milicdb schema](./milicdb.sql)
 
-### Relationship view
+## Relationship view
 
 ![milicdb design](/images/milicdb-design.png "milicdb design")
 
-## References
+# References
 1. [PHP CRUD using Bootstrap 5 | CRUD operation using PHP Bootstrap 5 & MySQL](https://www.fundaofwebit.com/post/php-crud-using-bootstrap-5-example)
 2. [(The only proper) PDO tutorial](https://phpdelusions.net/pdo)
 3. [MDB Tutorials](https://mdbootstrap.com/docs/standard/design-blocks/)
+4. [Netlify Shopping Cart](https://shoppingcartexample.netlify.com) 
+5. [Daniel Cregg's Shopping Cart Example](https://danielcregg.github.io/shoppingcart/)

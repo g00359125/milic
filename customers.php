@@ -1,5 +1,7 @@
 <?php
     $page="Customers";
+    session_start();
+	require 'database.php';
 ?>
 <!doctype html>
 <html lang="en" data-bs-theme="dark" class="h-100">
@@ -84,10 +86,10 @@
                                                     <td><?= $row['dob']; ?></td>
                                                     <td><?= $row['address']; ?></td>
                                                     <td><?= $row['mobile']; ?></td>
-                                                    <td><a href="orderHistory.php?id=<?= $row['id']; ?>" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+                                                    <td><a href="orderHistory.php?user_id=<?= $row['id']; ?>" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
                                                         <?= $row['num_orders']?>
                                                     </a></td>
-                                                    <td><a href="orderHistory.php?id=<?= $row['id']; ?>" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+                                                    <td><a href="orderHistory.php?user_id=<?= $row['id']; ?>" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
                                                         <?= $row['total_orders']?>
                                                     </a></td>
                                                 </tr>
@@ -115,7 +117,22 @@
         $( document ).ready(function() {
             $('#customersTable').DataTable( {
                 "pageLength": 25,
-                "order": [[0, 'asc']]
+                "order": [[0, 'asc']],
+                "columnDefs": [
+                    { "targets": -1, "className": 'dt-body-right' },
+                    { "targets": -2, "className": 'dt-body-center' }
+                ],
+                "columns": [
+                    { "type": "num" },
+                    null,
+                    null,
+                    { "type": "date" },
+                    null,
+                    null,
+                    { "type": "html-num" },
+                    { "type": "html-num" }
+                    
+                ]
             });
         });
     </script>

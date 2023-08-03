@@ -20,6 +20,7 @@ if(!empty($_POST['email']) && !empty($_POST['password'])):
 if ($results === false || count($results) == 0 || !password_verify($_POST['password'], $results['password'])) {
         $message = 'Sorry, <br>those credentials do not match';
 		$_SESSION['alert'] = $message;
+		$_SESSION['alert_style']= 'danger';
 	} else {
         $_SESSION['user_id'] = $results['id'];
         header('Location: ./index.php');
@@ -62,7 +63,7 @@ endif;
 		require 'themeToggle.php';
 	?>
 	<main class="form-signin flex-shrink-0">
-		<?php include('alert.php'); ?>
+		<?php require 'alert.php'; ?>
 
 		<form action="login.php" method="POST">
 			 <picture class="mb-4">
@@ -96,7 +97,7 @@ endif;
 
 				<div class="col">
 				<!-- Simple link -->
-				<a href="#!">Forgot password?</a>
+				<!-- <a href="#!">Forgot password?</a> -->
 				</div>
 			</div>
 
@@ -109,9 +110,7 @@ endif;
 			</div>
 		</form>
 			
-		<?php if(!empty($message)): ?>
-				<p><?= $message ?></p>
-		<?php endif; ?>
+		
 	</main>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

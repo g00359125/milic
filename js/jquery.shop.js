@@ -12,6 +12,7 @@
 			this.cartPrefix = "milic-"; // Prefix string to be prepended to the cart's name in the session storage
 			this.cartName = this.cartPrefix + "cart"; // Cart name in the session storage
 			this.shippingRates = this.cartPrefix + "shipping-rates"; // Shipping rates key in the session storage
+			this.discountRate = this.cartPrefix + "discount-rate"; // Discount rate key in the session storage
 			this.total = this.cartPrefix + "total"; // Total key in the session storage
 			this.storage = sessionStorage; // shortcut to the sessionStorage object
 			
@@ -74,6 +75,7 @@
 			
 				this.storage.setItem( this.cartName, this._toJSONString( cart ) );
 				this.storage.setItem( this.shippingRates, 0 );
+				this.storage.setItem( this.discountRate, 0 );
 				this.storage.setItem( this.total, 0 );
 			}
 		},
@@ -231,7 +233,9 @@
 					self._updateCounters(updatedCart.items);
 					$( this ).parents( "#"+ productId ).remove();
 					self.$subTotal[0].value = self.storage.getItem( self.total ) + " " + self.currency;
-					self.$totalCharges[0].value = self.storage.getItem( self.total + shipping ) + " " + self.currency;
+					var total = this._convertString(this.storage.getItem( this.total ));
+					var discount = this._convertString(this.storage.getItem( this.discountRate ));
+					self.$totalCharges[0].value = (total * (100 - discount)/100 + shipping ).toFixed(2) + " " + self.currency;
 				});
 			}
 		},
@@ -239,15 +243,18 @@
 		// Displays the shopping cart
 		
 		displayCart: function() {
+
 			var cart = this._toJSONObject( this.storage.getItem( this.cartName ) );
 			var items = cart.items;
 			this._updateCounters(items);
 			if( this.$formCart.length ) {
-				
+				var rate = $('input#discount-rate').val();
+				this.storage.setItem( this.discountRate, this._convertNumber( rate ) );
 				var $cartItems = this.$formCart.find( "#cart-items" );
 				
 				if( items.length == 0 ) {
-					$cartItems.html( "" );	
+					$cartItems.html( "" );
+					this.$formCart.find( "#create-order" ).attr('disabled', '');	
 				} else {
 				
 				
@@ -264,52 +271,27 @@
 								<h6 class="text-black mb-0">${item['desc']}</h6>
 							</div>
 							<div class="pqty col-md-3 col-lg-3 col-xl-2 d-flex">
-								<button class="btn btn-link px-2"
-									onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-									<i class="fas fa-minus"></i>
-								</button>
-
 								<input id="qty-${item['id']}" 
 								       min="0"
 									   max="${item['stock']}"
 									   name="qty-${item['id']}" 
 									   value="${item['qty']}" 
 									   type="number"
-									   class="qty form-control form-control-sm fs-5" />
-
-								<button class="btn btn-link px-2"
-									onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-									<i class="fas fa-plus"></i>
-								</button>
+									   class="qty form-control form-control-sm fs-5 text-center" />
 							</div>
 							<div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
 								<input id="price_${item['currency']}-${item['id']}" 
 									   name="price_${item['currency']}-${item['id']}" 
 									   value="${price} ${item['currency']}" 
 									   type="text"
-									   class="mb-0 form-control form-control-sm fs-5" readonly/>
+									   class="mb-0 form-control-plaintext form-control-sm fs-5 float-end text-end" readonly/>
 							</div>
 							<div class="col-md-1 col-lg-1 col-xl-1 text-end pdelete">
 								<a href='' data-id='${item['id']}' class="text-muted"><i class="fas fa-times"></i></a>
 							</div>
 							<hr class="my-4">
 						</div>
-						`;
-						// var html = "<tr>";
-						// 	html += "<td>" + item.id + "</td>";
-						// 	html += "<td>" + item.name + "</td>";
-						// 	html += "<td>" + item.desc + "</td>";
-						// 	html += "<td>" + item.abv + "</td>";
-						// 	html += "<td>" + item.volume + "</td>";
-						// 	html += "<td>" + item.year + "</td>";
-						// 	html += "<td>" + item.image + "</td>";
-						// 	html += "<td>" + item.stock + "</td>";
-						// 	html += "<td class='pqty'><input type='text' value='" + item.qty + "' class='qty'/></td>";
-					    // 	html += "<td class='pprice'>" + item.price + "</td>";
-						// 	html += "<td>" + item.currency + "</td>";
-						// 	html += "<td class='pdelete'><a href='' data-id='" + item.id + "'>&times;</a></td>";
-						// 	html += "</tr>";
-					
+						`;			
 						$cartItems.html( $cartItems.html() + html );
 					}
 
@@ -324,7 +306,8 @@
 					this.$subTotal[0].value = total.toFixed(2) + " " + this.currency;
 
 					var shipping = this._convertString(this.storage.getItem( this.shippingRates ));
-					this.$totalCharges[0].value = (total + shipping).toFixed(2) + " " + this.currency;
+					var discount = this._convertString(this.storage.getItem( this.discountRate ));
+					this.$totalCharges[0].value = (total*(100 - discount)/100 + shipping).toFixed(2) + " " + this.currency;
 				}
 			} else if( this.$checkoutCart.length ) {
 				var checkoutCart = this._toJSONObject( this.storage.getItem( this.cartName ) );
@@ -374,7 +357,6 @@
 			
 			// on logout button click delete cart
 			$( ".logout" ).on( "click", function( e ) {
-				console.log("Bye!");
 				// Remember the link href
 				var href = this.href;
 				// Don't follow the link
@@ -396,25 +378,18 @@
 			var self = this;
 		  	if( self.$updateCartBtn.length ) {
 				self.$updateCartBtn.on( "click", function() {
-				console.log("Update Cart");
 				var $rows = self.$formCart.find( ".product" );
-				console.log($rows.length);
 				var totalQty = 0;
 				
 				$rows.each(function() {
 					var $row = $( this );
 					var newQty = self._convertString($row.find( ".pqty > .qty" ).val());
-					console.log('newQty=' + newQty);
 					var pid = self._convertString( $row.find( ".pqty > .qty" ).attr('id').split("-")[1]);
-					console.log('pid=' + pid);
 					items.forEach(element => {
 						if(element['id'] == pid){
 							oldQty = element['qty'];
-							console.log('oldQty=' + oldQty);
 							element['qty'] = newQty;
-							console.log('oldTotal=' + total);
 							total += (newQty - oldQty)*element['price'];
-							console.log('newTotal=' + total);
 						}
 					})
 				});

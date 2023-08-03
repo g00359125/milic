@@ -1,5 +1,7 @@
 <?php
     $page = "Contact";
+    session_start();
+	require 'database.php';
 ?>
 <!doctype html>
 <html lang="en" data-bs-theme="dark" class="h-100">

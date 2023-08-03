@@ -151,7 +151,7 @@ if ($message == "Successfully created new user") {
 					<!-- Email input -->
 					<div class="form-floating mb-4">
 						<input type="email" id="email" name="email" class="form-control" placeholder="name@email.com" autocomplete="off" readonly 
-			onfocus="this.removeAttribute('readonly');" required/>
+							onfocus="this.removeAttribute('readonly');" required/>
 						<label class="form-label" for="email">Email address</label>
 						<div class="invalid-feedback">Please provide your e-mail address.</div>
 						<div class="valid-feedback">Looks good!</div>
@@ -160,7 +160,7 @@ if ($message == "Successfully created new user") {
 					<!-- Password input -->
 					<div class="form-floating mb-4">
 						<input type="password" id="password" name="password" class="form-control" placeholder="**********" autocomplete="off" readonly 
-		onfocus="this.removeAttribute('readonly');" required/>
+							onfocus="this.removeAttribute('readonly');" required/>
 						<label class="form-label" for="password">Password</label>
 						<div class="invalid-feedback">Please provide your password.</div>
 						<div class="valid-feedback">Looks good!</div>
@@ -228,7 +228,7 @@ if ($message == "Successfully created new user") {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 <script src="https://kit.fontawesome.com/a6efd8a22c.js" crossorigin="anonymous"></script>
 <script>
-	// Example starter JavaScript for disabling form submissions if there are invalid fields
+	// Disabling form submissions if there are invalid fields
 	(function () {
 	'use strict'
 
