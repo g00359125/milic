@@ -108,7 +108,7 @@
 		setTimeout(function() {
 			let body = document.getElementsByTagName("body")[0]
 			body.classList.add("loaded")
-		}, 1000);
+		}, 8000);
 	</script>
 </body>
 </html>	
