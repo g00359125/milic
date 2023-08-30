@@ -1,10 +1,6 @@
 PPIT project by Mateja Cvetkovic
 ================================
 
-# Introduction
-
-
-# Website Flow
 
 # Pages
 
@@ -30,23 +26,7 @@ PPIT project by Mateja Cvetkovic
 
 * User - Order History
 
-* Admin - Customers
 
-* Admin - Prices
-
-* Admin - Inventory
-
-* Admin - Orders
-
-# Database
-
-## Database schema
-
-[milicdb schema](./milicdb.sql)
-
-## Relationship view
-
-![milicdb design](/images/milicdb-design.png "milicdb design")
 
 # References
 1. [PHP CRUD using Bootstrap 5 | CRUD operation using PHP Bootstrap 5 & MySQL](https://www.fundaofwebit.com/post/php-crud-using-bootstrap-5-example)

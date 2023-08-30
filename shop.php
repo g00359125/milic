@@ -27,9 +27,9 @@
 		</div>
 		<div class="container mb-4">
 			
-			<?php include('alert.php'); ?>
+			<?php require 'alert.php'; ?>
 
-			<div class="row row-cols-3 row-cols-md-3 g-4">
+			<div class="row row-cols-1 row-cols-md-3 g-4">
 			<?php 
 				$query = "SELECT * FROM `prices_view_en`;";
 				$counter = 0;	
@@ -58,7 +58,7 @@
 							>
 								<p class="card-text text-muted">ABV: <?= $row['abv']; ?> % | Vol: <?= $row['volume']; ?> L | Year: <?= $row['year']; ?></p>	
 								<p class=""><?= $row['description']; ?></p>
-								<p class="product-price" style="font-size: 2rem;"><strong><?= $row['price']; ?> EUR</strong></p>
+								<p class="product-price display-6"><strong><?= $row['price']; ?> EUR</strong></p>
 								<form class="add-to-cart row g-3" action="shoppingCart.php" method="get">
 									<!-- <div class="col-sm-1 offset-sm-1">
 										<button class="btn btn-link px-2"

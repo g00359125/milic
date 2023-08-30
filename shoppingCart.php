@@ -96,13 +96,13 @@
 								<div class="card-body p-0">
 									<div class="row g-0">
 										<div class="col-lg-8 p-5">
-											<div id="shopping-cart-actions" class="d-flex justify-content-between align-items-center mb-5">
-												<h6 class="mb-0">
+											<div id="shopping-cart-actions" class="row">
+												<h6 class="col-12 col-md-3 m-1 p-0">
 													<a href="shop.php" class="text-body"><i class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a>
 												</h6>
-												<input type="submit" name="update" id="update-cart" class="btn btn-dark btn-block btn-lg" value="Update Cart" />
-												<input type="submit" name="delete" id="empty-cart" class="btn btn-dark btn-block btn-lg" value="Empty Cart" />
-												<h6 class="mb-0 text-muted"><span class="itemCounter"></span> items</h6>
+												<input type="submit" name="update" id="update-cart" class="col-12 col-md-3 btn btn-dark btn-block btn-lg m-1" value="Update Cart" />
+												<input type="submit" name="delete" id="empty-cart" class="col-12 col-md-3 btn btn-dark btn-block btn-lg m-1" value="Empty Cart" />
+												<div class="col-12 col-md-2 m-1 p-0 text-muted"><span class="itemCounter"></span> items</div>
 											</div>
 											<hr class="my-4">
 											<div id="cart-items">
